@@ -1,0 +1,160 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: rgba(145 139 245 / 43%) !important;
+  margin: 0;
+  padding: 0;
+}
+
+.box-left {
+  display: inline;
+  width: 50%;
+  margin: 0px 0px 0px 0px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.box-right {
+  display: inline;
+  width: 50%;
+  margin: 0px 0px 0px 0px;
+  box-sizing: border-box;
+  float: right;
+}
+
+.text-box-left {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.text-box-right {
+  color: #15395e;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+}
+
+.text-center2 {
+  color: #1c1e20;
+  text-align: center;
+}
+
+.text-contrato {
+  color: #042f57;
+  text-align: center;
+  margin-top: 3px;
+  padding: 0;
+}
+
+.border-text{
+  border: #34495e solid 1px;
+}
+
+.deuda{
+  background-color: rgba(255, 0, 0, 0.365);
+}
+
+.pago{
+  background-color: rgba(0, 128, 0, 0.365);
+}
+
+.titulo{
+  background-color: rgba(0, 0, 0, 0.582);
+}
+
+.text-table{
+  font-weight: bold;
+}
+
+.text-titulo{
+  font-weight: bold;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+/* Elementos Estaticos */
+
+.menu {
+  top: 0px;
+  padding: 5px;
+  position: fixed;
+  display: block;
+  z-index: 9998;
+  transition: all 0.5s;
+}
+
+.formproducto {
+  top: 55px;
+  position: fixed;
+  display: block;
+  z-index: 9998;
+  transition: all 0.5s;
+}
+
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #ffffff !important;
+}
+
+/* Card Styles */
+.card {
+  /*margin: 20px auto;*/
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  color: #7f8c8d;
+}
+
+.card-header {
+  background-color: rgb(44 71 143 / 36%) !important;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.item i {
+  margin-right: 10px;
+  color: #ffffff;
+}
+
+.text-end .item i {
+  margin-left: 10px;
+}
+
+.text-end .card-text {
+  margin-left: 20px;
+}
+
+.border-success {
+  border-color: #27ae60 !important;
+}
+
+.border-bottom {
+  border-bottom: 2px solid #27ae60 !important;
+}
+
+.text-success {
+  color: #27ae60 !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+}
+
+footer {
+  background-color: #e2ac6eda;
+  text-align: center;
+  padding: 20px 0;
+}
