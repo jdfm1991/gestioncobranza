@@ -93,10 +93,6 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
-
-
-
-
   case 'anular':
     $dato = array();
     $estatus = 4;

@@ -124,56 +124,6 @@ switch ($_GET["op"]) {
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  case 'showdataroles':
-    $dato = array();
-    if ($_SESSION['rol'] == 1) {
-      $data = $usuario->showDataRoles();
-    } else {
-      $data = $usuario->showDataRoles1();
-    }
-    foreach ($data as $data) {
-      $sub_array = array();
-      $sub_array['id'] = $data['id'];
-      $sub_array['rol'] = $data['user_rol'];
-      $dato[] = $sub_array;
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
-  case 'showdatastatus':
-    $dato = array();
-    $data = $usuario->showDataStatus();
-    foreach ($data as $data) {
-      $sub_array = array();
-      $sub_array['id'] = $data['id'];
-      $sub_array['estatus'] = $data['user_status'];
-      $dato[] = $sub_array;
-    }
-    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-    break;
-
-
-
-
-
   default:
     header("Location: ../../");
     die();

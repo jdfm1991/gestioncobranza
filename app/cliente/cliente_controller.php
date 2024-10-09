@@ -109,10 +109,6 @@ switch ($_GET["op"]) {
       $dato['message'] = 'No Se Puede Eliminar Usuario Debido A Que Posee '.$contrato.' Contratos Activos o Con Deudas';
     }
 
-
-
-
-
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 

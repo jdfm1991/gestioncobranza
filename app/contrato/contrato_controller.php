@@ -78,7 +78,6 @@ switch ($_GET["op"]) {
         $dato['message'] = 'Error al Actualizar La Infomacion';
       }
     }
-
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
