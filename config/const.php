@@ -5,7 +5,7 @@ const SERVER = "localhost";
 # ROUTE DATABASE
 const SERVER_DB = "localhost";
 const USER_DB  = "root";
-const PASS_DB = "20975144";
+const PASS_DB = "";
 const NAME_DB = "proyecto_app_cobranza";
 
 //ROUTE PRINCIPAL APP

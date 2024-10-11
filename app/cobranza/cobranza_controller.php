@@ -14,7 +14,7 @@ $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
 $contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
 $concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
-$estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '1';
+$estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
 $hoy = date('Y-m-d');
 $total = 0;
 $periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
@@ -28,17 +28,18 @@ switch ($_GET["op"]) {
     $mes = date('F', strtotime($hoy));
     $data = $cobranza->cargarDatosContratos();
     $n_contrato = count($data);
+    
     if ($n_contrato > 0) {
       foreach ($data as $data) {
         $contrato = $data['id'];
         $cliente = $data['cliente'];
-        $plan = $data['nodo'];
+        $nodo = $data['nodo'];
+        $plan = $data['plan'];
         $monto = $data['costo'];
-
         $verificar = $cobranza->buscarDatosCobranza($contrato);
         if (!$verificar) {
           $nuevo = $cobranza->cargarSiguienteOrden();
-          $regcobranza = $cobranza->guardarDatosCobranza($contrato, $cliente, $plan, $hoy, $monto, $detalle,  $estatus, $nuevo);
+          $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus);
           if ($regcobranza) {
             $contador++;
             $dato['status']  = true;
@@ -87,7 +88,7 @@ switch ($_GET["op"]) {
       $plan = 5;
       $estatus = 1;
       $nuevo = $cobranza->cargarSiguienteOrden();
-      $data = $cobranza->guardarDatosCobranza($id_contrato, $id_cliente, $nodo, $hoy, $monto, $concepto,  $estatus, $nuevo);
+      $data = $cobranza->guardarDatosCobranza($hoy, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus);
       if ($data) {
         $dato['status']  = true;
         $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';

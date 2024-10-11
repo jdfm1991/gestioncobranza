@@ -140,9 +140,9 @@ $(document).ready(function () {
   //**********de Lista de Contrato***************/
   $("#btnbuscar").click(function (e) {
     e.preventDefault();
-    $(".modal-title").text("Lista de Cliente");
-    $("#modalcliente").modal("show");
-    dataClienteCarga('cobro');
+    $(".modal-title").text("Lista de Contratos");
+    $("#modalcontrato").modal("show");
+    dataContratoCarga();
   });
   //************************************************/
   //***********Evento para Mostrar modal************/
@@ -151,7 +151,7 @@ $(document).ready(function () {
     e.preventDefault();
     $(".modal-title").text("Lista de Cliente");
     $("#modalcliente").modal("show");
-    dataClienteCarga('cxc');
+    dataClienteCarga();
   });
   //*********************************************/
   //*****Accion para registrar la informacion****/
@@ -307,7 +307,7 @@ function anularCobro(id) {
 //**************************************************/
 //********Accion para cargar la informacion*********/
 //******el Datatable de los clientes****************/
-function dataClienteCarga(caso) {
+function dataClienteCarga() {
   $("#listacliente").DataTable().destroy();
   usuariotabla = $("#listacliente").DataTable({
     responsive: true,
@@ -325,7 +325,7 @@ function dataClienteCarga(caso) {
         render: function (data, type, row) {
           return (
             "<div class='text-center'><div class='btn-group'>" +
-            "<button onclick='enviarCasoCliente(`"+caso+"`,`" +
+            "<button onclick='cargarCliente(`" +
             data +
             "`)' class='btn btn-outline-primary btn-sm'>Selecionar</button>" +
             "</div></div>"
@@ -335,24 +335,47 @@ function dataClienteCarga(caso) {
     ],
   });
 }
-function enviarCasoCliente(caso, cliente) {
-  if (caso=='cobro') {
-    cargarContratoCliente(cliente)
-  } 
-  if (caso=='cxc') {
-    cargaDatosCxc(cliente)
-  }   
+//************************************************/
+//*******Accion para cargar la informacion********/
+//**********de los contratos registrados**********/
+function dataContratoCarga() {
+  $("#listacontrato").DataTable().destroy();
+  usuariotabla = $("#listacontrato").DataTable({
+    responsive: true,
+    pageLength: 10,
+    ajax: {
+      url: "../contrato/contrato_controller.php?op=contratos",
+      method: "POST",
+      dataSrc: "",
+    },
+    columns: [
+      { data: "contrato" },
+      { data: "nombre_apel" },
+      {
+        data: "id",
+        render: function (data, type, row) {
+          return (
+            "<div class='text-center'><div class='btn-group'>" +
+            "<button onclick=' cargarContratoCliente(`" +
+            data +
+            "`)' class='btn btn-outline-primary btn-sm '>Selecionar</button>" +
+            "</div></div>"
+          );
+        },
+      },
+    ],
+  });
 }
 //************************************************/
 //********Accion para cargar la informacion*******/
 //*************del cliente selecconado************/
-function cargaDatosCxc(cliente) {
+function cargarCliente(id) {
   $("#modalcliente").modal("hide");
   $.ajax({
     url: "../cliente/cliente_controller.php?op=cliente",
     method: "POST",
     dataType: "json",
-    data: { id: cliente },
+    data: { id: id },
     success: function (data) {
       $.each(data, function (idx, opt) {
         $("#id_cliente").val(cliente);
@@ -365,13 +388,13 @@ function cargaDatosCxc(cliente) {
 //************************************************/
 //********Opcion para cargar informacion**********/
 //**********de un contrato selecionado************/
-function cargarContratoCliente(cliente) {
-  $("#modalcliente").modal("hide");  
+function cargarContratoCliente(id) {  
+  $("#modalcontrato").modal("hide");  
   $.ajax({
     url: "../contrato/contrato_controller.php?op=contrato",
     method: "POST",
     dataType: "json",
-    data: { id: cliente },
+    data: { id: id },
     success: function (data) {
       $.each(data, function (idx, opt) {
         $("#id_cliente").val(opt.cliente);

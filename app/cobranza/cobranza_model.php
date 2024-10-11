@@ -11,9 +11,9 @@ class Cobranza extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT A.id, A.cliente, A.nodo, B.costo, B.detalle 
+    $sql = "SELECT A.id, A.cliente, A.nodo, A.plan, B.costo, B.detalle 
               FROM tabla_contrato_data AS A 
-              INNER JOIN tabla_contrato_plan AS B ON B.id=A.plan
+              INNER JOIN tabla_contrato_plan AS B ON B.id=A.plan;
               WHERE estatus =2";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
@@ -55,7 +55,7 @@ class Cobranza extends Conectar
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function guardarDatosCobranza($contrato, $cliente, $plan, $hoy, $monto, $detalle, $estatus, $nuevo)
+  public function guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle,  $estatus)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
     //CUANDO ES APPWEB ES CONEXION.
@@ -63,17 +63,18 @@ class Cobranza extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "INSERT INTO tabla_cobranza_data(contrato, cliente, nodo, fecha_creacion, monto, detalle, estatus, orden) VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO tabla_cobranza_data(fecha_creacion, orden, contrato, cliente, nodo, plan, monto,detalle, estatus) VALUES (?,?,?,?,?,?,?,?,?)";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
-    $sql->bindValue(1, $contrato);
-    $sql->bindValue(2, $cliente);
-    $sql->bindValue(3, $plan);
-    $sql->bindValue(4, $hoy);
-    $sql->bindValue(5, $monto);
-    $sql->bindValue(6, $detalle);
-    $sql->bindValue(7, $estatus);
-    $sql->bindValue(8, $nuevo);
+    $sql->bindValue(1, $hoy);
+    $sql->bindValue(2, $nuevo);
+    $sql->bindValue(3, $contrato);
+    $sql->bindValue(4, $cliente);
+    $sql->bindValue(5, $nodo);
+    $sql->bindValue(6, $plan);
+    $sql->bindValue(7, $monto);
+    $sql->bindValue(8, $detalle);
+    $sql->bindValue(9, $estatus);
     return $sql->execute();
   }
 
@@ -141,7 +142,7 @@ class Cobranza extends Conectar
     parent::set_names();
     //QUERY
     $sql = "SELECT * FROM tabla_cobranza_data 
-            WHERE contrato=? AND YEAR(fecha_creacion)=YEAR(NOW()) AND MONTH(fecha_creacion)=MONTH(NOW())";
+            WHERE contrato=? AND YEAR(fecha_creacion)=YEAR(NOW()) AND MONTH(fecha_creacion)=MONTH(NOW()) AND plan!=5";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $contrato);

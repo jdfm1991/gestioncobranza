@@ -134,7 +134,7 @@ if ($detalle_pago==3) {
   if ($detalle_pago==4) {
     $body .= '<br><br><p style="text-align:center;">FORMA DE PAGO: <b>'.$detalle.'</b> por <b>'.number_format($monto_cambio, 2).'</b> Bs al <b>'.$fecha_pago.'</b>, (TASA <b>'.$tasa.'</b> BS. POR $)</p>';
   } else {
-    $body .= '<br><br><p style="text-align:center;">FORMA DE PAGO: <b>'.$detalle.'</b> a <b>BANESCO</b>, Bajo El Numero de Referecia <b>'.$referencia.'</b> por <b>'.number_format($monto_pago, 2).'</b> Bs al <b>'.$fecha_pago.'</b>, Equivalente a  <b>'.number_format($monto_cambio, 2).'</b> $ (TASA <b>'.$tasa.'</b> BS. POR $)</p>';
+    $body .= '<br><br><p style="text-align:center;">FORMA DE PAGO: <b>'.$detalle.'</b> a <b>BANESCO</b>, Bajo El Numero de Referecia <b>'.$referencia.'</b> por <b>'.$monto_pago.'</b> Bs al <b>'.$fecha_pago.'</b>, Equivalente a  <b>'.$monto_cambio.'</b> $ (TASA <b>'.$tasa.'</b> BS. POR $)</p>';
   }
   
 }
