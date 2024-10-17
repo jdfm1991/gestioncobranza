@@ -5,12 +5,11 @@ require_once("../../config/sesion_activa.php");
 require_once('../head.php');
 require_once('../menu.php');
 ?>
+<input type="hidden" id="id_cliente">
+<input type="hidden" id="id_contrato">
 <div class="container-lg mt-5">
-  <input type="hidden" id="id_cliente">
-  <input type="hidden" id="id_contrato">
-  <div class="row justify-content-center g-2 mt-5">
-    <hr>
-    <h1>Modulo de Contratos</h1>
+  <div id="permitido" class="row justify-content-center g-2 mt-5">
+    <h1 class="text-center">Modulo de Contratos</h1>
     <hr>
     <div id="contenedor_botones" class="col-sm-3">
       <div class="card">
@@ -208,8 +207,17 @@ require_once('../menu.php');
     </div>
 
   </div>
+  <div id="nopermitido" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container">
+      <div class="alert alert-danger" role="alert">
+        <p class="text-center">Acceso no permitido.</p>
+        <div class="col-lg overflow-hidden shadow-lg">
+          <img class="rounded rounded-lg-3 mx-auto d-block" src="<?php echo  URL_ASSETS; ?>img/error-403-forbidden.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 <script src="contrato.js"></script>
 <?php
 require_once('../../config/modals.php');

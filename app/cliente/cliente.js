@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  
   //************************************************/
   //*******Se Oculta los elementos iniciales********/
   //*****************de modulo**********************/
@@ -95,9 +96,7 @@ $(document).ready(function () {
   //*********Opcion para editar un producto*******/
   //*****************de la base de datos************/
   $(document).on("click", ".btneditar", function () {
-    id = $("#id_cliente").val();
-    console.log(id);
-    
+    id = $("#id_cliente").val();    
     $("#contenedor_r_cliente").show();
     $("#contenedor_v_cliente").hide();
     $("#titulo_cliente").text("Editar Registro Cliente");
@@ -217,6 +216,8 @@ $(document).ready(function () {
     });
   });
 });
+
+
 
 function dataClienteCarga() {
   //************************************************/

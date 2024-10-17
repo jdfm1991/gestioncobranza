@@ -27,8 +27,7 @@ switch ($_GET["op"]) {
     $detalle = ucwords(strftime("Cobro de Servicio Del Mes De %B"));
     $mes = date('F', strtotime($hoy));
     $data = $cobranza->cargarDatosContratos();
-    $n_contrato = count($data);
-    
+    $n_contrato = count($data);    
     if ($n_contrato > 0) {
       foreach ($data as $data) {
         $contrato = $data['id'];
@@ -39,6 +38,7 @@ switch ($_GET["op"]) {
         $verificar = $cobranza->buscarDatosCobranza($contrato);
         if (!$verificar) {
           $nuevo = $cobranza->cargarSiguienteOrden();
+          
           $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus);
           if ($regcobranza) {
             $contador++;

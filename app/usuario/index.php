@@ -6,9 +6,8 @@ require_once('../head.php');
 require_once('../menu.php');
 ?>
 <div class="container mt-5">
-  <div class="row justify-content-center g-2 mt-3">
-    <hr>
-    <h1>Modulo de Usuario</h1>
+  <div id="permitido" class="row justify-content-center g-2 mt-3">
+    <h1 class="text-center">Modulo de Usuario</h1>
     <hr>
     <div id="contenedor_fomulario" class="col">
       <div class="card">
@@ -73,8 +72,17 @@ require_once('../menu.php');
 
     </div>
   </div>
+  <div id="nopermitido" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container">
+      <div class="alert alert-danger" role="alert">
+        <p class="text-center">Acceso no permitido.</p>
+        <div class="col-lg overflow-hidden shadow-lg">
+          <img class="rounded rounded-lg-3 mx-auto d-block" src="<?php echo  URL_ASSETS; ?>img/error-403-forbidden.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<br>
 <script src="usuario.js"></script>
 <?php
 require_once('../../config/modals.php');

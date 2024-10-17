@@ -55,7 +55,7 @@ class Cobranza extends Conectar
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle,  $estatus)
+  public function guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
     //CUANDO ES APPWEB ES CONEXION.
@@ -63,7 +63,7 @@ class Cobranza extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "INSERT INTO tabla_cobranza_data(fecha_creacion, orden, contrato, cliente, nodo, plan, monto,detalle, estatus) VALUES (?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO tabla_cobranza_data(fecha_creacion, orden, contrato, cliente, nodo, plan, monto, detalle, estatus) VALUES (?,?,?,?,?,?,?,?,?)";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $hoy);

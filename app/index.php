@@ -1,7 +1,7 @@
 <?php
 require_once("../config/abrir_sesion.php");
 require_once("../config/conexion.php");
-//require_once("../config/sesion_activa.php");
+require_once("../config/sesion_activa.php");
 require_once('head.php');
 require_once('menu.php');
 ?>

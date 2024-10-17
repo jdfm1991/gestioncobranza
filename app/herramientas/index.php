@@ -1,7 +1,7 @@
 <?php
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
-//require_once("../../config/sesion_activa.php");
+require_once("../../config/sesion_activa.php");
 require_once('../head.php');
 require_once('../menu.php');
 $today = date('Y-m-d');
@@ -10,8 +10,7 @@ $today = date('Y-m-d');
   <input type="hidden" id="id_nodo">
   <input type="hidden" id="id_plan">
   <div class="row justify-content-center g-2 mt-5">
-    <hr>
-    <h1>Modulo de Herramientas</h1>
+    <h1 class="text-center">Modulo de Herramientas</h1>
     <hr>
     <div id="contenedor_botones" class="col-sm-3">
       <div class="card">

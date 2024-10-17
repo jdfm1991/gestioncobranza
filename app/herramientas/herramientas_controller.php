@@ -6,6 +6,9 @@ require_once("herramientas_model.php");
 
 $herramientas = new Herramientas();
 
+$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '2';
+$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : 'pago';
+
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
 $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
@@ -18,6 +21,37 @@ $detalle = (isset($_POST['detalle'])) ? $_POST['detalle'] : '';
 $descripcion = (isset($_POST['descripcion'])) ? $_POST['descripcion'] : '';
 
 switch ($_GET["op"]) {
+
+  case 'menu':
+    $menu = "";
+    $menu .= "<li><a href=" . URL_APP . " id='home' class='nav-link px-2'>Home</a></li>";
+    $data = $herramientas->cargarMenu($usuario);
+    foreach ($data as $data) {
+      $departamento = $herramientas->cargarDepartamentos($usuario, $data['id']);
+      if (is_array($departamento) and count($departamento) > 0) {
+        $menu .= "<li class='nav-item dropdown'>
+              <a class='nav-link dropdown-toggle px-2' href='#' data-bs-toggle='dropdown' aria-expanded='false'>" . $data['modulo'] . "</a>
+              <ul class='dropdown-menu'>";
+        foreach ($departamento as $departamento) {
+          $menu .= "<li><a class='dropdown-item' href=" . URL_APP . $departamento['departamento'] . ">" . $departamento['departamento'] . "</a></li>";
+        }
+        $menu .= "</ul>
+            </li>";
+      }
+    }
+    $menu .= "<li> <a href='#' id='btnlogout' class='nav-link px-2' aria-current='page'><i class='bi bi-person-fill-slash'></i>Cerrar Sesion</a></li>";
+    echo $menu;
+    break;
+
+  case 'permisos':
+    $data = $herramientas->validarPermisosDepartamento($usuario, $departamento);
+    if ($data) {
+      $dato = true;
+    }else{
+      $dato = false;
+    }
+    echo json_encode($dato);
+    break;
 
   case 'nodos':
     $dato = array();

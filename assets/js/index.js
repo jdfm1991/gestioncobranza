@@ -1,7 +1,22 @@
 const URI_APP = $("#app").val();
+const USUARIO = $("#sesion").val();
+
 $(document).ready(function () {
   const URI_SETTING = $("#setting").val();
+  if (USUARIO !== undefined) {
+    //************************************************/
+    //*******Funcion cargar los opciones del**********/
+    //**********menu al iniciar la sesion*************/
+    cargarMenu()
+    //************************************************/
+    //*******Funcion para validar solo si el**********/
+    //****usuario tiene acceso a departamento*********/
+    validarAcceso();
+  }
 
+  
+ 
+  
   //************************************************/
   //***********Evento para Mostrar modal************/
   //**************de inicio de sesion***************/
@@ -55,8 +70,7 @@ $(document).ready(function () {
   //************************************************/
   //***********Evento para cerrar sesion************/
   //************************************************/
-  $("#btnlogout").click(function (e) {
-    e.preventDefault();
+  $(document).on("click", "#btnlogout", function () {
     Swal.fire({
       title: "¿Está seguro Cerrar Sesion?",
       showCancelButton: true,
@@ -180,6 +194,48 @@ $(document).ready(function () {
     },
   });
 });
+
+function validarAcceso() {
+  let link = location.href
+  arr = link.split("/");
+  let departamento = arr[5];
+  if (departamento) {
+    $.ajax({
+      type: "POST",
+      url: URI_APP+"herramientas/herramientas_controller.php?op=permisos",
+      dataType: "html",
+      data: { usuario: USUARIO, departamento: departamento},
+      success: function (data) {
+        console.log(data);
+        
+        if (data == 'true') {
+          $('#nopermitido').removeClass('d-flex');
+          $('#nopermitido').hide();
+          $('#permitido').show();
+        }else{
+          $('#permitido').hide();
+          $('#nopermitido').addClass('d-flex');
+          $('#nopermitido').show();
+        }
+        
+        
+      },
+    });  
+  }
+}
+
+function cargarMenu() {
+  $.ajax({
+    type: "POST",
+    url: URI_APP+"herramientas/herramientas_controller.php?op=menu",
+    dataType: "html",
+    data: { usuario: USUARIO},
+    success: function (data) {
+      $("#menu").empty();
+      $("#menu").append(data);
+    },
+  });  
+}
 
 function cargarEstados(id) {
   $.ajax({
