@@ -23,24 +23,24 @@ $(document).ready(function () {
   //*********************************************/
   //********Funcion de Accion para usar**********/
   //*******menu interno de modulo cliente********/
-  $("#r_cliente").click(function (e) {
+  $("#btn_reg").click(function (e) {
     e.preventDefault();
     limpiarFormulario();
     $("#btnbuscar").prop("disabled", false);
     $("#titulo_cliente").text("Registro Cobranza");
     $("#contenedor_r_cliente").show();
     $("button").removeClass("active");
-    $("#r_cliente").addClass("active");
+    $("#btn_reg").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_v_cliente").hide();
     $("#contenedor_cxc").hide();
   });
   /**********************************************/
-  $("#v_cliente").click(function (e) {
+  $("#btn_ver").click(function (e) {
     e.preventDefault();
     $("#contenedor_v_cliente").show();
     $("button").removeClass("active");
-    $("#v_cliente").addClass("active");
+    $("#btn_ver").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_r_cliente").hide();
     $("#contenedor_cxc").hide();
@@ -48,18 +48,18 @@ $(document).ready(function () {
     limpiarFormulario();
   });
   /**********************************************/
-  $("#cliente_cxc").click(function (e) {
+  $("#btn_report").click(function (e) {
     e.preventDefault();
     $("#contenedor_cxc").show();
     $("button").removeClass("active");
-    $("#cliente_cxc").addClass("active");
+    $("#btn_report").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_r_cliente").hide();
     $("#contenedor_v_cliente").hide();
     limpiarFormulario();
   });
   /**********************************************/
-  $("#btn_cobro").click(function (e) {
+  $("#btn_auto").click(function (e) {
     e.preventDefault();
     $.ajax({
       url: "cobranza_controller.php?op=generacion_automatica",
@@ -186,7 +186,7 @@ $(document).ready(function () {
           });
           setTimeout(() => {
             $("button").removeClass("active");
-            $("#v_cliente").addClass("active");
+            $("#btn_ver").addClass("active");
             $("#contenedor_r_cliente").hide();
             $("#contenedor_v_cliente").show();
             limpiarFormulario();

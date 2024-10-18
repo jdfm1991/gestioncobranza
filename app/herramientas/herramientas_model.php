@@ -53,6 +53,37 @@ class Herramientas extends Conectar
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function buscarIdDepartamento($departamento)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT id FROM tabla_departamento_data WHERE departamento=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $departamento);
+    $sql->execute();
+    return ($sql->fetch(PDO::FETCH_ASSOC)['id']);
+  }
+
+  public function botonesDepartamentoUsuario($usuario, $departamento)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_depart_boton_data WHERE usuario=? AND departamento=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $usuario);
+    $sql->bindValue(2, $departamento);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function cargarNodos()
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2

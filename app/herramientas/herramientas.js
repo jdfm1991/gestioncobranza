@@ -240,9 +240,9 @@ function cargarListaPlanes() {
         render: function (data, type, row) {
           return (
             "<div class='text-center'><div class='btn-group'>" +
-            "<button onclick='editarData(`" +
+            "<button id='btn_edit' onclick='editarData(`" +
             data +
-            "`)' class='btn btn-outline-info btn-sm' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
+            "`)' class='btn btn-outline-info' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
             "</div></div>"
           );
         },

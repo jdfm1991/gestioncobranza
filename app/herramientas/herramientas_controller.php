@@ -6,8 +6,8 @@ require_once("herramientas_model.php");
 
 $herramientas = new Herramientas();
 
-$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '2';
-$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : 'pago';
+$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : '';
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
@@ -47,10 +47,24 @@ switch ($_GET["op"]) {
     $data = $herramientas->validarPermisosDepartamento($usuario, $departamento);
     if ($data) {
       $dato = true;
-    }else{
+    } else {
       $dato = false;
     }
     echo json_encode($dato);
+    break;
+
+  case 'botones':
+    $iddepat = $herramientas->buscarIdDepartamento($departamento);
+    $dato = array();
+    
+    $data = $herramientas->botonesDepartamentoUsuario($usuario, $iddepat);
+    foreach ($data as $data) {
+      $sub_array = array();
+      $sub_array['id'] = $data['id'];
+      $sub_array['boton'] = $data['boton'];
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
   case 'nodos':

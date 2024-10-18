@@ -14,22 +14,22 @@ require_once('../menu.php');
     <hr>
     <div id="contenedor_botones" class="col-sm-3">
       <div class="card">
-        <div class="card-header">
-          <b><span class="text-center">Opciones de Modulo de Cobranza</span></b>
+        <div class="card-header text-center">
+          <b><span>Menu de Opciones</span></b>
         </div>
         <div class="card-body">
           <!-- Hover added -->
           <div class="list-group">
-            <button type="button" id="btn_cobro" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_auto" class="list-group-item list-group-item-action">
               Carga Automaticas (OC)
             </button>
-            <button type="button" id="r_cliente" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_reg" class="list-group-item list-group-item-action">
               Nueva Orden de Cobro
             </button>
-            <button type="button" id="v_cliente" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_ver" class="list-group-item list-group-item-action">
               Lista de Orden de Cobro
             </button>
-            <button type="button" id="cliente_cxc" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_report" class="list-group-item list-group-item-action">
               Reporte Cuentas Por Cobrar
             </button>
           </div>

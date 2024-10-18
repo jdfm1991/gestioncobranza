@@ -1,22 +1,47 @@
+//************************************************/
+//**********Declaracion de variables**************/
+//*************globales del sistema***************/
 const URI_APP = $("#app").val();
 const USUARIO = $("#sesion").val();
+const URI_SETTING = $("#setting").val();
+const URI = location.href;
+arr = URI.split("/");
+const DEPART = arr[5];
+//************************************************/
+//********Ocultanto los botones por defecto*******/
+//*****como configuracion inicial del sistema*****/
+$("#btn_auto").hide();
+$("#btn_reg").hide();
+$("#btn_ver").hide();
+$("#btn_report").hide();
+$("#btntasa").hide();
+$("#btnnodo").hide();
+$("#btnmodulo").hide();
+$("#btn_edit").hide();
 
+$(".btneditar").css('display', 'none');
+//************************************************/
+//*********Iniciando estructura del index*********/
+//************************************************/
 $(document).ready(function () {
-  const URI_SETTING = $("#setting").val();
+  //************************************************/
+  //*********Se establece la condicion para*********/
+  //*************para cargar el menu****************/
   if (USUARIO !== undefined) {
-    //************************************************/
-    //*******Funcion cargar los opciones del**********/
-    //**********menu al iniciar la sesion*************/
+    //**********************************************/
+    //*******Llamando a la Funcion cargar***********/
+    //**********los opciones del menu***************/
     cargarMenu()
-    //************************************************/
-    //*******Funcion para validar solo si el**********/
-    //****usuario tiene acceso a departamento*********/
+    //**********************************************/
+    //*******Llamando a la Funcion para*************/
+    //****validar solo si el usuario tiene acceso***/
     validarAcceso();
+    //**********************************************/
+    //****Llamando a la Funcion para visualizar*****/
+    //*****botones habilitados para el usuario******/
+    visualizarBotones();
+    //**********************************************/
   }
-
-  
- 
-  
   //************************************************/
   //***********Evento para Mostrar modal************/
   //**************de inicio de sesion***************/
@@ -86,20 +111,20 @@ $(document).ready(function () {
   //**************de indicador de clientes**********/
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=clientecount",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=clientecount",
     dataType: "json",
     success: function (data) {
       $("#cliente_cont").empty();
       $.each(data, function (idx, opt) {
         $("#cliente_cont").append(
           '<div class="col-6">' +
-            '<span class="fw-bold fs-5">' +
-            opt.n_clientes +
-            "</span>" +
-            '<p class="fw-bold fs-6">' +
-            opt.estatus +
-            "</p>" +
-            "</div>"
+          '<span class="fw-bold fs-5">' +
+          opt.n_clientes +
+          "</span>" +
+          '<p class="fw-bold fs-6">' +
+          opt.estatus +
+          "</p>" +
+          "</div>"
         );
       });
       $("#cliente_cont").append('<p class="fw-bold fs-4">Clientes</p>');
@@ -110,20 +135,20 @@ $(document).ready(function () {
   //*************de indicador de contratos**********/
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=contratocount",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=contratocount",
     dataType: "json",
     success: function (data) {
       $("#contrato_cont").empty();
       $.each(data, function (idx, opt) {
         $("#contrato_cont").append(
           '<div class="col-4">' +
-            '<span class="fw-bold fs-5">' +
-            opt.n_contratos +
-            "</span>" +
-            '<p class="fw-bold fs-6">' +
-            opt.estatus +
-            "</p>" +
-            "</div>"
+          '<span class="fw-bold fs-5">' +
+          opt.n_contratos +
+          "</span>" +
+          '<p class="fw-bold fs-6">' +
+          opt.estatus +
+          "</p>" +
+          "</div>"
         );
       });
       $("#contrato_cont").append('<p class="fw-bold fs-4">Contratos</p>');
@@ -134,24 +159,24 @@ $(document).ready(function () {
   //*************de indicador de contratos 2********/
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=cobrocontratocount",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=cobrocontratocount",
     dataType: "json",
     success: function (data) {
       $("#cobro_nodo").empty();
       $.each(data, function (idx, opt) {
         $("#cobro_nodo").append(
           '<div class="col-3 rounded-5 ' +
-            opt.bg +
-            ' bg-gradient m-2">' +
-            '<span class="fw-bold fs-5">' +
-            opt.costo +
-            " $</span>" +
-            '<p class="fw-bold fs-6">' +
-            opt.cant +
-            " Contrato <br> En El " +
-            opt.nodo +
-            "</p>" +
-            "</div>"
+          opt.bg +
+          ' bg-gradient m-2">' +
+          '<span class="fw-bold fs-5">' +
+          opt.costo +
+          " $</span>" +
+          '<p class="fw-bold fs-6">' +
+          opt.cant +
+          " Contrato <br> En El " +
+          opt.nodo +
+          "</p>" +
+          "</div>"
         );
       });
     },
@@ -161,101 +186,121 @@ $(document).ready(function () {
   //*************de indicador de contratos 2********/
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=nodos",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=nodos",
     dataType: "JSON",
     success: function (data) {
       $("#cobro_detalle").empty();
       $.each(data, function (idx, opt) {
         $("#cobro_detalle").append(
           '<div class="col-10 rounded-5 bg-light bg-gradient m-2"><span class="fw-bold fs-5">' +
-            opt.nodo +
-            "</span>" +
-            '<div id="nodo' +
-            opt.id +
-            '" class="row justify-content-center mt-2">' +
-            "</div>" +
-            "</div>"
+          opt.nodo +
+          "</span>" +
+          '<div id="nodo' +
+          opt.id +
+          '" class="row justify-content-center mt-2">' +
+          "</div>" +
+          "</div>"
         );
 
         cargarEstados(opt.id);
       });
     },
   });
-   //************************************************/
+  //************************************************/
   //**********Evento para cambiar estatus de*********/
   //************los contratos registrados************/
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=cambiarestatus",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=cambiarestatus",
     dataType: "JSON",
     success: function (data) {
       //console.log(data);
-      
+
     },
   });
 });
 
+//************************************************/
+//*******Funcion cargar los opciones del**********/
+//**********menu al iniciar la sesion*************/
+function cargarMenu() {
+  $.ajax({
+    type: "POST",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=menu",
+    dataType: "html",
+    data: { usuario: USUARIO },
+    success: function (data) {
+      $("#menu").empty();
+      $("#menu").append(data);
+    },
+  });
+}
+//**********************************************/
+//*******Funcion para validar solo si el********/
+//****usuario tiene acceso a departamento*******/
 function validarAcceso() {
-  let link = location.href
-  arr = link.split("/");
-  let departamento = arr[5];
-  if (departamento) {
+  if (DEPART) {
     $.ajax({
       type: "POST",
-      url: URI_APP+"herramientas/herramientas_controller.php?op=permisos",
+      url: URI_APP + "herramientas/herramientas_controller.php?op=permisos",
       dataType: "html",
-      data: { usuario: USUARIO, departamento: departamento},
+      data: { usuario: USUARIO, departamento: DEPART },
       success: function (data) {
-        console.log(data);
         
         if (data == 'true') {
           $('#nopermitido').removeClass('d-flex');
           $('#nopermitido').hide();
           $('#permitido').show();
-        }else{
+        } else {
           $('#permitido').hide();
           $('#nopermitido').addClass('d-flex');
           $('#nopermitido').show();
         }
-        
-        
       },
-    });  
+    });
   }
 }
-
-function cargarMenu() {
-  $.ajax({
-    type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=menu",
-    dataType: "html",
-    data: { usuario: USUARIO},
-    success: function (data) {
-      $("#menu").empty();
-      $("#menu").append(data);
-    },
-  });  
+//*******Funcion para visualizar botones********/
+//*******habilitados solo para el usuario*******/
+//*******que tiene acceso al departamento*******/
+function visualizarBotones() {
+  if (DEPART) {
+    $.ajax({
+      type: "POST",
+      url: URI_APP + "herramientas/herramientas_controller.php?op=botones",
+      dataType: "JSON",
+      data: { usuario: USUARIO, departamento: DEPART },
+      success: function (data) {
+        $.each(data, function (idx, opt) {
+          $(opt.boton).show();
+        });
+        
+        
+             
+      },
+    });
+  }
 }
 
 function cargarEstados(id) {
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=estadocobro",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=estadocobro",
     dataType: "JSON",
     success: function (data) {
       $("#nodo" + id).empty();
       $.each(data, function (idx, opt) {
         $("#nodo" + id).append(
           '<div class="col-5 rounded-5 bg-primary bg-gradient m-2"><span class="fw-bold fs-5">' +
-            opt.estatus +
-            "</span>" +
-            '<div id="estatus' +
-            opt.id +
-            "_" +
-            id +
-            '" class="row justify-content-center mt-2">' +
-            "</div>" +
-            "</div>"
+          opt.estatus +
+          "</span>" +
+          '<div id="estatus' +
+          opt.id +
+          "_" +
+          id +
+          '" class="row justify-content-center mt-2">' +
+          "</div>" +
+          "</div>"
         );
 
         cargarEstadosCobros(id, opt.id);
@@ -267,7 +312,7 @@ function cargarEstados(id) {
 function cargarEstadosCobros(nodo, estatus) {
   $.ajax({
     type: "POST",
-    url: URI_APP+"herramientas/herramientas_controller.php?op=cobrosdetalle",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=cobrosdetalle",
     dataType: "JSON",
     data: { nodo: nodo, estatus: estatus },
     success: function (data) {
@@ -276,65 +321,65 @@ function cargarEstadosCobros(nodo, estatus) {
         if (opt.estatus == 1) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.monto +
-              "<br>Monto Acumulado</b></p>" +
-              "</div>" +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.numero +
-              "<br>Cobros Acumulado</b></p>" +
-              "</div>" +
-              "</div>"
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.monto +
+            "<br>Monto Acumulado</b></p>" +
+            "</div>" +
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.numero +
+            "<br>Cobros Acumulado</b></p>" +
+            "</div>" +
+            "</div>"
           );
         }
         if (opt.estatus == 2) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.monto +
-              "<br>Monto Acumulado</b></p>" +
-              "</div>" +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.numero +
-              "<br>Cobros Acumulado</b></p>" +
-              "</div>" +
-              "</div>"
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.monto +
+            "<br>Monto Acumulado</b></p>" +
+            "</div>" +
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.numero +
+            "<br>Cobros Acumulado</b></p>" +
+            "</div>" +
+            "</div>"
           );
         }
         if (opt.estatus == 3) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.monto +
-              "<br>Monto Acumulado</b></p>" +
-              "</div>" +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.numero +
-              "<br>Cobros Acumulado</b></p>" +
-              "</div>" +
-              "</div>"
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.monto +
+            "<br>Monto Acumulado</b></p>" +
+            "</div>" +
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.numero +
+            "<br>Cobros Acumulado</b></p>" +
+            "</div>" +
+            "</div>"
           );
         }
         if (opt.estatus == 4) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.monto +
-              "<br>Monto Acumulado</b></p>" +
-              "</div>" +
-              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-              "<p><b>" +
-              opt.numero +
-              "<br>Cobros Acumulado</b></p>" +
-              "</div>" +
-              "</div>"
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.monto +
+            "<br>Monto Acumulado</b></p>" +
+            "</div>" +
+            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+            "<p><b>" +
+            opt.numero +
+            "<br>Cobros Acumulado</b></p>" +
+            "</div>" +
+            "</div>"
           );
         }
       });
