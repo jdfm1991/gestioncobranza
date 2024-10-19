@@ -6,8 +6,10 @@ require_once("herramientas_model.php");
 
 $herramientas = new Herramientas();
 
-$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+$usuario = (isset($_POST['usuario'])) ? $_POST['usuario'] : '2';
 $departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : '';
+$opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
+$modulo = (isset($_POST['modulo'])) ? $_POST['modulo'] : '1';
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
@@ -33,7 +35,7 @@ switch ($_GET["op"]) {
               <a class='nav-link dropdown-toggle px-2' href='#' data-bs-toggle='dropdown' aria-expanded='false'>" . $data['modulo'] . "</a>
               <ul class='dropdown-menu'>";
         foreach ($departamento as $departamento) {
-          $menu .= "<li><a class='dropdown-item' href=" . URL_APP . $departamento['departamento'] . ">" . $departamento['departamento'] . "</a></li>";
+          $menu .= "<li><a class='dropdown-item' href=" . URL_APP . $departamento['link'] . ">" . $departamento['departamento'] . "</a></li>";
         }
         $menu .= "</ul>
             </li>";
@@ -56,12 +58,60 @@ switch ($_GET["op"]) {
   case 'botones':
     $iddepat = $herramientas->buscarIdDepartamento($departamento);
     $dato = array();
-    
     $data = $herramientas->botonesDepartamentoUsuario($usuario, $iddepat);
     foreach ($data as $data) {
       $sub_array = array();
       $sub_array['id'] = $data['id'];
       $sub_array['boton'] = $data['boton'];
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'accion':
+    $iddepat = $herramientas->buscarIdDepartamento($departamento);
+    $dato = array();
+    $data = $herramientas->accionDepartamentoUsuario($usuario, $iddepat, $opcion);
+    foreach ($data as $data) {
+      $sub_array = array();
+      $sub_array['id'] = $data['id'];
+      $sub_array['accion'] = $data['accion'];
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'modulos':
+    $dato = array();
+    $data = $herramientas->cargarModulosData();
+    foreach ($data as $data) {
+      $sub_array = array();
+      $sub_array['id'] = $data['id'];
+      $sub_array['modulo'] = $data['modulo'];
+      $modulo = $herramientas->cargarMenu($usuario);
+      foreach ($modulo as $modulo) {
+        if ($data['id'] == $modulo['id']) {
+          $sub_array['checked'] = 'checked';
+        }
+      }
+      $dato[] = $sub_array;
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'departamentos':
+    $dato = array();
+    $data = $herramientas->cargarDepartamentoData($modulo);
+    foreach ($data as $data) {
+      $sub_array = array();
+      $sub_array['id'] = $data['id'];
+      $sub_array['departamento'] = $data['departamento'];
+      $departamento = $herramientas->validarpermidoDepartamentoData($usuario);
+      foreach ($departamento as $departamento) {
+        if ($data['id'] == $departamento['departamento']) {
+          $sub_array['checked'] = 'checked';
+        }
+      }
       $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);

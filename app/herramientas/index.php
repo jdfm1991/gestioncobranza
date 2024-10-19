@@ -20,13 +20,13 @@ $today = date('Y-m-d');
         <div class="card-body">
           <!-- Hover added -->
           <div class="list-group">
-            <button type="button" id="departamento" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_reg_tasa" class="list-group-item list-group-item-action" value="btn_reg_tasa">
               Registrar Tasa
             </button>
-            <button type="button" id="modulo" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_reg_plan" class="list-group-item list-group-item-action" value="btn_reg_plan">
               Registrar Plan
             </button>
-            <button type="button" id="nodos" class="list-group-item list-group-item-action">
+            <button type="button" id="btn_reg_nodo" class="list-group-item list-group-item-action" value="btn_reg_nodo">
               Registrar Nodo
             </button>
           </div>

@@ -20,10 +20,10 @@ $(document).ready(function () {
   //************************************************/
   //************Accion para el boton ver************/
   //**************las tasa registrados**************/
-  $("#departamento").click(function (e) {
+  $("#btn_reg_tasa").click(function (e) {
     e.preventDefault();
     $("button").removeClass("active");
-    $("#departamento").addClass("active");
+    $("#btn_reg_tasa").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_tres").hide();
     $("#contenedor_modulo").hide();
@@ -82,10 +82,10 @@ $(document).ready(function () {
   //************************************************/
   //*********Accion para el boton ver  los**********/
   //***************modulos registrados**************/
-  $("#modulo").click(function (e) {
+  $("#btn_reg_plan").click(function (e) {
     e.preventDefault();
     $("button").removeClass("active");
-    $("#modulo").addClass("active");
+    $("#btn_reg_plan").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_tres").hide();
     $("#contenedor_departamento").hide();
@@ -143,10 +143,10 @@ $(document).ready(function () {
   //************************************************/
   //************Accion para el boton ver************/
   //*************las nodos registrados**************/
-  $("#nodos").click(function (e) {
+  $("#btn_reg_nodo").click(function (e) {
     e.preventDefault();
     $("button").removeClass("active");
-    $("#nodos").addClass("active");
+    $("#btn_reg_nodo").addClass("active");
     $("#contenedor_default").hide();
     $("#contenedor_departamento").hide();
     $("#contenedor_modulo").hide();
@@ -240,15 +240,19 @@ function cargarListaPlanes() {
         render: function (data, type, row) {
           return (
             "<div class='text-center'><div class='btn-group'>" +
-            "<button id='btn_edit' onclick='editarData(`" +
+            "<button name='editar' onclick='editarData(`" +
             data +
-            "`)' class='btn btn-outline-info' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
+            "`)' class='btn btn-outline-info d-none' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
             "</div></div>"
           );
         },
       },
     ],
   });
+  $("#listaplanes").DataTable().on("draw", function () {
+    verBotonesAccion()
+  })
+  
 }
 //************************************************/
 //********Opcion para cargar informacion**********/
@@ -292,15 +296,18 @@ function cargarDatosNodos() {
         render: function (data, type, row) {
           return (
             "<div class='text-center'><div class='btn-group'>" +
-            "<button onclick='editarNodo(`" +
+            "<button name='editar' onclick='editarNodo(`" +
             data +
-            "`)' class='btn btn-outline-info btn-sm' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
+            "`)' class='btn btn-outline-info' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
             "</div></div>"
           );
         },
       },
     ],
   });
+  $("#listanodos").DataTable().on("draw", function () {
+    verBotonesAccion()
+  })
 }
 //************************************************/
 //********Opcion para cargar informacion**********/

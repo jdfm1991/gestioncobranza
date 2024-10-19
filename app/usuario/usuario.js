@@ -24,6 +24,9 @@ $(document).ready(function () {
             "`)' class='btn btn-outline-info btn-sm btneditar' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
             "<button onclick='tomarId(`" +
             data +
+            "`)' class='btn btn-outline-success btn-sm verpermisos' title='ver permisos'><i class='bi bi-lock'></i></button>" +
+            "<button onclick='tomarId(`" +
+            data +
             "`)' class='btn btn-outline-danger btn-sm btneliminar' title='Eliminar'><i class='bi bi-x-octagon'></i></button>" +
             "</div></div>"
           );
@@ -122,7 +125,6 @@ $(document).ready(function () {
               limpiarFormulario();
               setTimeout(() => {
                 usuariotabla.ajax.reload(null, false);
-                console.log(id);
               }, 1000);
             } else {
               Swal.fire({
@@ -138,11 +140,268 @@ $(document).ready(function () {
       }
     });
   });
+  //************************************************/
+  //*********Opcion para Eliminar un usuario*******/
+  //*****************de la base de datos************/
+  $(document).on("click", ".verpermisos", function () {
+    id = $("#idusuario").val();
+    $.ajax({
+      url: URI_APP + "herramientas/herramientas_controller.php?op=modulos",
+      type: "POST",
+      dataType: "json",
+      data: { usuario: id },
+      success: function (data) {
+        $("#list_modulo").empty();
+        $.each(data, function (idx, opt) {
+          $("#list_modulo").append(
+            "<div>" +
+              '<div class="form-check">' +
+              '<input class="form-check-input permodulo" type="checkbox" value="' +
+              opt.id +
+              '" id="' +
+              opt.id +
+              '" ' +
+              opt.checked +
+              ">" +
+              '<label class="form-check-label text-center" for="' +
+              opt.id +
+              '">' +
+              opt.modulo +
+              "</label>" +
+              '<div id="modulo_dep' +
+              opt.id +
+              '" class="row justify-content-between align-items-center g-2 pt-3"></div>' +
+              "</div>" +
+              "</div>"
+          );
+          cargarDeportamentoModulo(opt.id);
+        });
+      },
+    });
+  });
+  //*********************************************/
+  //********Accion para Validar checkbox*********/
+  //***********asignarmermisod de modulo*********/
+  $(document).on("change", ".permodulo", function (e) {
+    if ($(this).is(":checked")) {
+      modulo = $(this).val();
+      darPermisoModuloUsuario(modulo);
+      cargarDeportamentoModulo(modulo);
+    } else {
+      modulo = $(this).val();
+      quitarPermisoModuloUsuario(modulo);
+    }
+  });
+  //*********************************************/
+  //********Accion para Validar checkbox*********/
+  //******asignarmermisod de departamento********/
+  $(document).on("change", ".perdepartamento", function (e) {
+    if ($(this).is(":checked")) {
+      departamento = $(this).val()
+      darPermisoDepartamentoUsuario(departamento)
+    } else {
+      departamento = $(this).val()
+      quitarPermisoDepartamentoUsuario(departamento)
+    }
+  });
+
+  $(".boton").change(function (e) { 
+    e.preventDefault();
+    if ($(this).is(":checked")) {
+      boton = $(this).val()
+      permitirAccionDepartamento(boton)
+    } else {
+      boton = $(this).val()
+      quitarAccionDepartamento(boton)
+    }
+  });
+
+  $("#closeb").click(function (e) {
+    e.preventDefault();
+    $( "#check_btn_1" ).prop( "checked", false )
+    $( "#check_btn_2" ).prop( "checked", false )
+    $( "#check_btn_3" ).prop( "checked", false )
+    $( "#check_btn_4" ).prop( "checked", false )   
+  });
 });
 
 function tomarId(id) {
   $("#idusuario").val(id);
 }
+
+function darPermisoModuloUsuario(modulo) {
+  id = $("#idusuario").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=darpermidomulo",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: id, modulo: modulo },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      toastBootstrap.show();
+    },
+  });
+}
+
+function quitarPermisoModuloUsuario(modulo) {
+  id = $("#idusuario").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=quitarpermidomulo",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: id, modulo: modulo },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      toastBootstrap.show();
+    },
+  });
+}
+
+function cargarDeportamentoModulo(modulo) {
+  id = $("#idusuario").val();
+  $.ajax({
+    type: "POST",
+    url: URI_APP + "herramientas/herramientas_controller.php?op=departamentos",
+    dataType: "json",
+    data: { usuario: id, modulo: modulo },
+    success: function (data) {
+      $("#modulo_dep" + modulo).empty();
+      $.each(data, function (idx, opt) {
+        $("#modulo_dep" + modulo).append(
+          '<div class="col-sm-6">' +
+            '<div class="form-check">' +
+            '<input class="form-check-input perdepartamento" type="checkbox" value="' +
+            opt.id +
+            '" id="' +
+            opt.id +
+            '" ' +
+            opt.checked +
+            ">" +
+            '<label class="form-check-label text-center" for="' +
+            opt.id +
+            '">' +
+            opt.departamento +
+            "</label>" +
+            "</div>" +
+            "</div>"
+        );
+      });
+    },
+  });
+}
+
+function darPermisoDepartamentoUsuario(departamento) {
+  id = $("#idusuario").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=darpermdep",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: id, departamento: departamento },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      $("#iddep").val(departamento);
+      toastBootstrap.show();
+      if (departamento==3) {
+        $("#auto_btn").removeClass('d-none');
+      } else {
+        $("#auto_btn").addClass('d-none');
+      }
+      if (departamento!=6) {
+        $(".modal-title").text("Acciones Permitidas");
+        $("#modalbotones").modal("show");
+      }
+      if (departamento==5) {
+        $(".regular").addClass('d-none');
+        $(".sistema").removeClass('d-none');
+      }else{
+        $(".regular").removeClass('d-none');
+        $(".sistema").addClass('d-none');
+      }
+      
+    },
+  });
+}
+
+function quitarPermisoDepartamentoUsuario(departamento) {
+  id = $("#idusuario").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=quitarpermdep",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: id, departamento: departamento },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      toastBootstrap.show();
+    },
+  });
+}
+
+function permitirAccionDepartamento(boton) {
+  usuario = $("#idusuario").val();
+  departamento = $("#iddep").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=daracciondep",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: usuario, departamento: departamento, boton:boton },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      toastBootstrap.show();
+    },
+  });
+}
+
+function quitarAccionDepartamento(boton) {
+  usuario = $("#idusuario").val();
+  departamento = $("#iddep").val();
+  const toastLiveExample = document.getElementById("notificar");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+  $.ajax({
+    url: "usuario_controller.php?op=quitaracciondep",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: usuario, departamento: departamento, boton:boton },
+    success: function (data) {
+      $(".me-auto").text("Procesos Exitoso");
+      $(".toast").css("background-color", "rgb(255 80 80 / 85%)");
+      $(".toast").css("color", "white");
+      $(".toast").attr("background-color", "");
+      $("#notificacion").text(data.message);
+      toastBootstrap.show();
+    },
+  });
+}
+
 function limpiarFormulario() {
   $("#idusuario").val("");
   $("#login_usuario").val("");

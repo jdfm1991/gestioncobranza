@@ -5,18 +5,19 @@ require_once("../../config/sesion_activa.php");
 require_once('../head.php');
 require_once('../menu.php');
 ?>
+<input type="hidden" id="idusuario">
+<input type="hidden" id="iddep">
 <div class="container mt-5">
   <div id="permitido" class="row justify-content-center g-2 mt-3">
     <h1 class="text-center">Modulo de Usuario</h1>
     <hr>
-    <div id="contenedor_fomulario" class="col">
+    <div id="contenedor_fomulario" class="col d-none">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header text-center">
           <h3> Formulario de Registro </h3>
         </div>
         <div class="card-body">
           <form id="formulariodeusuario">
-            <input type="hidden" id="idusuario">
             <div class="row mb-3">
               <div class="col">
                 <label for="nom_usuario" class="form-label">Nombre</label>
@@ -70,6 +71,27 @@ require_once('../menu.php');
         <div class="card-footer text-muted"></div>
       </div>
 
+    </div>
+    <div id="contenedor_permisos" class="col">
+      <div class="card">
+        <div class="card-header text-center">
+          <h3> Gestion de Permisos </h3>
+        </div>
+        <div class="card-body">
+
+          <div class="row justify-content-center align-items-center g-2">
+            <h4 class="text-center">Lista de Modulo</h4>
+            <div id="list_modulo" class="row justify-content-center align-items-center g-2">
+              
+            </div>
+          </div>
+
+          <div id="messegep" class="text-center alert" role="alert">
+            <p id="errorp" class="mb-0"></p>
+          </div>
+        </div>
+        <div class="card-footer text-muted"></div>
+      </div>
     </div>
   </div>
   <div id="nopermitido" class="d-flex justify-content-center align-items-center" style="height: 100vh;">

@@ -129,5 +129,103 @@ class Usuario extends Conectar
     $sql->execute();
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function darPermisosModuloUsuario($user,$modulo)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $data = NULL;
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "INSERT INTO tabla_modulo_usuario_data(modulo, usuario) VALUES (?,?)";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $modulo);
+    $sql->bindValue(2, $user);
+    return $sql->execute();
+  }
+
+  public function quitarPermisosModuloUsuario($user,$modulo)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "DELETE FROM tabla_modulo_usuario_data WHERE modulo=? AND usuario=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $modulo);
+    $sql->bindValue(2, $user);
+    $sql->execute();
+    return $sql;
+  }
+
+  public function darPermisosDepartamentoUsuario($user,$departamento)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $data = NULL;
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "INSERT INTO tabla_depart_usuario_data(departamento, usuario) VALUES (?,?)";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $departamento);
+    $sql->bindValue(2, $user);
+    return $sql->execute();
+  }
+
+  public function quitarPermisosDepartamentoUsuario($user,$departamento)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "DELETE FROM tabla_depart_usuario_data WHERE departamento=? AND usuario=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $departamento);
+    $sql->bindValue(2, $user);
+    $sql->execute();
+    return $sql;
+  }
+
+  public function darAccionDepartamentoUsuario($user, $departamento, $boton)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $data = NULL;
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "INSERT INTO tabla_depart_boton_data(boton, departamento, usuario) VALUES (?,?,?)";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $boton);
+    $sql->bindValue(2, $departamento);
+    $sql->bindValue(3, $user);
+    return $sql->execute();
+  }
+
+  public function quitarAccionDepartamentoUsuario($user, $departamento, $boton)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "DELETE FROM tabla_depart_usuario_data WHERE departamento=? AND usuario=? AND boton=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $departamento);
+    $sql->bindValue(2, $user);
+    $sql->bindValue(2, $boton);
+    $sql->execute();
+    return $sql;
+  }
   
 }

@@ -7,9 +7,12 @@ $usuario = new Usuario();
 
 //---- Variables Para Registro de Usuario---//
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$user = (isset($_POST['usuario'])) ? $_POST['usuario'] : 'jfranco';
-$nom_usuario = (isset($_POST['nom_usuario'])) ? $_POST['nom_usuario'] : 'jovanni franco';
-$contrasena = (isset($_POST['contrasenna'])) ? $_POST['contrasenna'] : '20975144';
+$user = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+$nom_usuario = (isset($_POST['nom_usuario'])) ? $_POST['nom_usuario'] : '';
+$contrasena = (isset($_POST['contrasenna'])) ? $_POST['contrasenna'] : '';
+$modulo = (isset($_POST['modulo'])) ? $_POST['modulo'] : '';
+$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : '';
+$boton = (isset($_POST['boton'])) ? $_POST['boton'] : '';
 $hoy = date('Y-m-d');
 
 switch ($_GET["op"]) {
@@ -87,7 +90,6 @@ switch ($_GET["op"]) {
 
   case 'eliminar':
     $dato = array();
-
     $data = $usuario->deleteUserData($id);
     if ($data) {
       $dato['status']  = true;
@@ -96,7 +98,84 @@ switch ($_GET["op"]) {
       $dato['status']  = false;
       $dato['message'] = 'Error al Elimino La Infomacion';
     }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
 
+  case 'darpermidomulo':
+    $dato = array();
+    $data = $usuario->darPermisosModuloUsuario($user, $modulo);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'quitarpermidomulo':
+    $dato = array();
+    $data = $usuario->quitarPermisosModuloUsuario($user, $modulo);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Elimino Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'darpermdep':
+    $dato = array();
+    $data = $usuario->darPermisosDepartamentoUsuario($user, $departamento);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'quitarpermdep':
+    $dato = array();
+    $data = $usuario->quitarPermisosDepartamentoUsuario($user, $departamento);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'daracciondep':
+    $dato = array();
+    $data = $usuario->darAccionDepartamentoUsuario($user, $departamento, $boton);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'quitaracciondep':
+    $dato = array();
+    $data = $usuario->quitarAccionDepartamentoUsuario($user, $departamento, $boton);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Elimino La Infomacion';
+    }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2024 a las 18:05:53
+-- Tiempo de generación: 19-10-2024 a las 20:12:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -219,10 +219,10 @@ CREATE TABLE `tabla_contrato_nodo` (
 --
 
 INSERT INTO `tabla_contrato_nodo` (`id`, `nodo`) VALUES
-(1, 'NODO de prueba'),
+(1, 'NODO BALA'),
 (2, 'NODO PRINCIPAL'),
 (3, 'NODO SECUNDARIO'),
-(4, 'nodo ultimo');
+(4, 'NODO FULL');
 
 -- --------------------------------------------------------
 
@@ -249,6 +249,126 @@ INSERT INTO `tabla_contrato_plan` (`id`, `plan`, `detalle`, `costo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tabla_departamento_data`
+--
+
+CREATE TABLE `tabla_departamento_data` (
+  `id` int(11) NOT NULL,
+  `link` varchar(20) NOT NULL,
+  `departamento` varchar(50) NOT NULL,
+  `modulo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_departamento_data`
+--
+
+INSERT INTO `tabla_departamento_data` (`id`, `link`, `departamento`, `modulo`) VALUES
+(1, 'contrato', 'Gestion De Contratos', 2),
+(2, 'cliente', 'Gestion De Cliente', 1),
+(3, 'cobranza', 'Gestion De Cobranza', 2),
+(4, 'pago', 'Gestion De Pagos', 2),
+(5, 'herramientas', 'Herramientas De Sistema', 3),
+(6, 'usuario', 'Gestion de Usuario', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_depart_accion_data`
+--
+
+CREATE TABLE `tabla_depart_accion_data` (
+  `id` int(11) NOT NULL,
+  `accion` varchar(10) NOT NULL,
+  `departamento` int(11) NOT NULL,
+  `opcion` varchar(15) NOT NULL,
+  `usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_depart_accion_data`
+--
+
+INSERT INTO `tabla_depart_accion_data` (`id`, `accion`, `departamento`, `opcion`, `usuario`) VALUES
+(1, 'editar', 5, 'btn_reg_plan', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_depart_boton_data`
+--
+
+CREATE TABLE `tabla_depart_boton_data` (
+  `id` int(11) NOT NULL,
+  `boton` varchar(20) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `departamento` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_depart_boton_data`
+--
+
+INSERT INTO `tabla_depart_boton_data` (`id`, `boton`, `usuario`, `departamento`) VALUES
+(1, '#btn_ver', 2, 3),
+(2, '#btn_auto', 2, 3),
+(3, '#btn_reg', 2, 2),
+(4, '#btn_reg', 2, 4),
+(5, '#btn_ver', 2, 4),
+(6, '#btn_report', 2, 4),
+(7, '#btn_reg', 2, 2),
+(8, '#btn_ver', 2, 2),
+(9, '#btn_report', 2, 2),
+(10, '#btn_reg', 2, 1),
+(11, '#btn_ver', 2, 1),
+(12, '#btn_report', 2, 1),
+(13, '#btn_reg', 2, 2),
+(14, '#btn_ver', 2, 2),
+(15, '#btn_report', 2, 2),
+(16, '#btn_reg', 2, 3),
+(17, '#btn_ver', 2, 3),
+(18, '#btn_report', 2, 3),
+(19, '#btn_auto', 2, 3),
+(20, '', 2, 4),
+(21, '', 2, 4),
+(22, '', 2, 4),
+(23, '#btn_report', 2, 2),
+(24, '#btn_ver', 2, 2),
+(25, '#btn_report', 2, 4),
+(26, '#btn_ver', 2, 4),
+(27, '#btn_report', 2, 2),
+(28, '#btn_ver', 2, 2),
+(29, '#btn_reg_tasa', 2, 5),
+(30, '#btn_reg_plan', 2, 5),
+(31, '#btn_reg_nodo', 2, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_depart_usuario_data`
+--
+
+CREATE TABLE `tabla_depart_usuario_data` (
+  `id` int(11) NOT NULL,
+  `departamento` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_depart_usuario_data`
+--
+
+INSERT INTO `tabla_depart_usuario_data` (`id`, `departamento`, `usuario`) VALUES
+(48, 6, 2),
+(52, 4, 2),
+(56, 2, 2),
+(57, 3, 2),
+(58, 1, 2),
+(59, 5, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tabla_empresa_data`
 --
 
@@ -260,6 +380,48 @@ CREATE TABLE `tabla_empresa_data` (
   `telefono` varchar(20) NOT NULL,
   `correo` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_modulo_data`
+--
+
+CREATE TABLE `tabla_modulo_data` (
+  `id` int(11) NOT NULL,
+  `modulo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_modulo_data`
+--
+
+INSERT INTO `tabla_modulo_data` (`id`, `modulo`) VALUES
+(1, 'Modulo Administrativo'),
+(2, 'Modulo de Ventas'),
+(3, 'Ajuste de Sistema');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_modulo_usuario_data`
+--
+
+CREATE TABLE `tabla_modulo_usuario_data` (
+  `id` int(11) NOT NULL,
+  `modulo` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_modulo_usuario_data`
+--
+
+INSERT INTO `tabla_modulo_usuario_data` (`id`, `modulo`, `usuario`) VALUES
+(22, 1, 0),
+(77, 2, 2),
+(78, 3, 2),
+(80, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -379,7 +541,7 @@ CREATE TABLE `tabla_usuario_data` (
 --
 
 INSERT INTO `tabla_usuario_data` (`id`, `nombre`, `usuario`, `contrasenna`, `fecha_registro`) VALUES
-(2, 'jovanni Franco', 'jfranco', '$2y$10$sNBgUR2QUzWcT9hoDmZmiuvm.rAlKgefwniPbJKEcBUDq4tM7lsMS', '2024-09-29');
+(2, 'jovanni Franco', 'jfranco', '$2y$10$HDqEXRehVxbDO5ppzOmtMONTGOGDHC./j/N7YV05SMBSX1Sup8X5.', '2024-10-19');
 
 --
 -- Índices para tablas volcadas
@@ -444,9 +606,45 @@ ALTER TABLE `tabla_contrato_plan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `tabla_departamento_data`
+--
+ALTER TABLE `tabla_departamento_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tabla_depart_accion_data`
+--
+ALTER TABLE `tabla_depart_accion_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tabla_depart_boton_data`
+--
+ALTER TABLE `tabla_depart_boton_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tabla_depart_usuario_data`
+--
+ALTER TABLE `tabla_depart_usuario_data`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `tabla_empresa_data`
 --
 ALTER TABLE `tabla_empresa_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tabla_modulo_data`
+--
+ALTER TABLE `tabla_modulo_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tabla_modulo_usuario_data`
+--
+ALTER TABLE `tabla_modulo_usuario_data`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -526,10 +724,46 @@ ALTER TABLE `tabla_contrato_plan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `tabla_departamento_data`
+--
+ALTER TABLE `tabla_departamento_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_depart_accion_data`
+--
+ALTER TABLE `tabla_depart_accion_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_depart_boton_data`
+--
+ALTER TABLE `tabla_depart_boton_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_depart_usuario_data`
+--
+ALTER TABLE `tabla_depart_usuario_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
 -- AUTO_INCREMENT de la tabla `tabla_empresa_data`
 --
 ALTER TABLE `tabla_empresa_data`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_modulo_data`
+--
+ALTER TABLE `tabla_modulo_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tabla_modulo_usuario_data`
+--
+ALTER TABLE `tabla_modulo_usuario_data`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_pago_forma`
@@ -553,7 +787,7 @@ ALTER TABLE `tabla_tasa_data`
 -- AUTO_INCREMENT de la tabla `tabla_usuario_data`
 --
 ALTER TABLE `tabla_usuario_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

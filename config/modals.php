@@ -269,8 +269,6 @@ $tomorrow = date('Y-m-d', $newday);
     </div>
   </div>
 </div>
-
-
 <!--
   *************************************************
   Modal Para visualizar los planes de servicio
@@ -301,6 +299,101 @@ $tomorrow = date('Y-m-d', $newday);
             <button type="submit" class="btn btn-outline-primary btn-light">Entrar</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+  *************************************************
+  notificacion Para visualizar proceso terminado
+  *************************************************
+-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="notificar" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <!--<img src="..." class="rounded me-2" alt="...">-->
+      <strong class="me-auto">Bootstrap</strong>
+      <!--<small>11 mins ago</small>-->
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      <p id="notificacion" class="mb-0"></p>
+    </div>
+  </div>
+</div>
+<!--
+  *************************************************
+  Modal Para visualizar los botones de menu
+  *************************************************
+-->
+<div class="modal fade mt-4" id="modalbotones" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">cobro</h1>
+        <button type="button" id="closeb" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="row justify-content-center align-items-center g-2">
+            <div class="col regular">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg" id="check_btn_1">
+                <label class="form-check-label" for="check_btn_1">
+                  Registrar Infomacion
+                </label>
+              </div>
+            </div>
+            <div class="col regular">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_ver" id="check_btn_2">
+                <label class="form-check-label" for="check_btn_2">
+                  Visualizar Infomacion
+                </label>
+              </div>
+            </div>
+            <div class="col regular">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_report" id="check_btn_3">
+                <label class="form-check-label" for="check_btn_3">
+                  Generar Reporte
+                </label>
+              </div>
+            </div>
+            <div id="auto_btn" class="col d-none">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_auto" id="check_btn_4">
+                <label class="form-check-label" for="check_btn_4">
+                  Acciones Automaticas
+                </label>
+              </div>
+            </div>
+            <div class="col d-none sistema">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_tasa" id="check_btn_4">
+                <label class="form-check-label" for="check_btn_4">
+                  Registrar Tasa
+                </label>
+              </div>
+            </div>
+            <div class="col d-none sistema">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_plan" id="check_btn_4">
+                <label class="form-check-label" for="check_btn_4">
+                  Registrar Plan
+                </label>
+              </div>
+            </div>
+            <div class="col d-none sistema">
+              <div class="form-check">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_nodo" id="check_btn_4">
+                <label class="form-check-label" for="check_btn_4">
+                  Registrar Nodo
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -18,8 +18,9 @@ $("#btntasa").hide();
 $("#btnnodo").hide();
 $("#btnmodulo").hide();
 $("#btn_edit").hide();
-
-$(".btneditar").css('display', 'none');
+$("#btn_reg_tasa").hide();
+$("#btn_reg_plan").hide();
+$("#btn_reg_nodo").hide();
 //************************************************/
 //*********Iniciando estructura del index*********/
 //************************************************/
@@ -31,7 +32,7 @@ $(document).ready(function () {
     //**********************************************/
     //*******Llamando a la Funcion cargar***********/
     //**********los opciones del menu***************/
-    cargarMenu()
+    cargarMenu();
     //**********************************************/
     //*******Llamando a la Funcion para*************/
     //****validar solo si el usuario tiene acceso***/
@@ -118,13 +119,13 @@ $(document).ready(function () {
       $.each(data, function (idx, opt) {
         $("#cliente_cont").append(
           '<div class="col-6">' +
-          '<span class="fw-bold fs-5">' +
-          opt.n_clientes +
-          "</span>" +
-          '<p class="fw-bold fs-6">' +
-          opt.estatus +
-          "</p>" +
-          "</div>"
+            '<span class="fw-bold fs-5">' +
+            opt.n_clientes +
+            "</span>" +
+            '<p class="fw-bold fs-6">' +
+            opt.estatus +
+            "</p>" +
+            "</div>"
         );
       });
       $("#cliente_cont").append('<p class="fw-bold fs-4">Clientes</p>');
@@ -142,13 +143,13 @@ $(document).ready(function () {
       $.each(data, function (idx, opt) {
         $("#contrato_cont").append(
           '<div class="col-4">' +
-          '<span class="fw-bold fs-5">' +
-          opt.n_contratos +
-          "</span>" +
-          '<p class="fw-bold fs-6">' +
-          opt.estatus +
-          "</p>" +
-          "</div>"
+            '<span class="fw-bold fs-5">' +
+            opt.n_contratos +
+            "</span>" +
+            '<p class="fw-bold fs-6">' +
+            opt.estatus +
+            "</p>" +
+            "</div>"
         );
       });
       $("#contrato_cont").append('<p class="fw-bold fs-4">Contratos</p>');
@@ -159,24 +160,26 @@ $(document).ready(function () {
   //*************de indicador de contratos 2********/
   $.ajax({
     type: "POST",
-    url: URI_APP + "herramientas/herramientas_controller.php?op=cobrocontratocount",
+    url:
+      URI_APP +
+      "herramientas/herramientas_controller.php?op=cobrocontratocount",
     dataType: "json",
     success: function (data) {
       $("#cobro_nodo").empty();
       $.each(data, function (idx, opt) {
         $("#cobro_nodo").append(
           '<div class="col-3 rounded-5 ' +
-          opt.bg +
-          ' bg-gradient m-2">' +
-          '<span class="fw-bold fs-5">' +
-          opt.costo +
-          " $</span>" +
-          '<p class="fw-bold fs-6">' +
-          opt.cant +
-          " Contrato <br> En El " +
-          opt.nodo +
-          "</p>" +
-          "</div>"
+            opt.bg +
+            ' bg-gradient m-2">' +
+            '<span class="fw-bold fs-5">' +
+            opt.costo +
+            " $</span>" +
+            '<p class="fw-bold fs-6">' +
+            opt.cant +
+            " Contrato <br> En El " +
+            opt.nodo +
+            "</p>" +
+            "</div>"
         );
       });
     },
@@ -193,13 +196,13 @@ $(document).ready(function () {
       $.each(data, function (idx, opt) {
         $("#cobro_detalle").append(
           '<div class="col-10 rounded-5 bg-light bg-gradient m-2"><span class="fw-bold fs-5">' +
-          opt.nodo +
-          "</span>" +
-          '<div id="nodo' +
-          opt.id +
-          '" class="row justify-content-center mt-2">' +
-          "</div>" +
-          "</div>"
+            opt.nodo +
+            "</span>" +
+            '<div id="nodo' +
+            opt.id +
+            '" class="row justify-content-center mt-2">' +
+            "</div>" +
+            "</div>"
         );
 
         cargarEstados(opt.id);
@@ -215,7 +218,6 @@ $(document).ready(function () {
     dataType: "JSON",
     success: function (data) {
       //console.log(data);
-
     },
   });
 });
@@ -246,15 +248,14 @@ function validarAcceso() {
       dataType: "html",
       data: { usuario: USUARIO, departamento: DEPART },
       success: function (data) {
-        
-        if (data == 'true') {
-          $('#nopermitido').removeClass('d-flex');
-          $('#nopermitido').hide();
-          $('#permitido').show();
+        if (data == "true") {
+          $("#nopermitido").removeClass("d-flex");
+          $("#nopermitido").hide();
+          $("#permitido").show();
         } else {
-          $('#permitido').hide();
-          $('#nopermitido').addClass('d-flex');
-          $('#nopermitido').show();
+          $("#permitido").hide();
+          $("#nopermitido").addClass("d-flex");
+          $("#nopermitido").show();
         }
       },
     });
@@ -274,9 +275,29 @@ function visualizarBotones() {
         $.each(data, function (idx, opt) {
           $(opt.boton).show();
         });
-        
-        
-             
+      },
+    });
+  }
+}
+
+function verBotonesAccion() {
+  let opcion;
+  if ($("button").hasClass("active")) {
+    opcion = $(".active").val();
+  }
+  if (DEPART) {
+    $.ajax({
+      type: "POST",
+      url: URI_APP + "herramientas/herramientas_controller.php?op=accion",
+      dataType: "JSON",
+      data: { usuario: USUARIO, departamento: DEPART, opcion: opcion },
+      success: function (data) {
+        $.each(data, function (idx, opt) {
+          let boton1 = document.getElementsByName(opt.accion);
+          boton1.forEach((element) => {
+            element.classList.remove("d-none");
+          });
+        });
       },
     });
   }
@@ -292,15 +313,15 @@ function cargarEstados(id) {
       $.each(data, function (idx, opt) {
         $("#nodo" + id).append(
           '<div class="col-5 rounded-5 bg-primary bg-gradient m-2"><span class="fw-bold fs-5">' +
-          opt.estatus +
-          "</span>" +
-          '<div id="estatus' +
-          opt.id +
-          "_" +
-          id +
-          '" class="row justify-content-center mt-2">' +
-          "</div>" +
-          "</div>"
+            opt.estatus +
+            "</span>" +
+            '<div id="estatus' +
+            opt.id +
+            "_" +
+            id +
+            '" class="row justify-content-center mt-2">' +
+            "</div>" +
+            "</div>"
         );
 
         cargarEstadosCobros(id, opt.id);
@@ -321,65 +342,65 @@ function cargarEstadosCobros(nodo, estatus) {
         if (opt.estatus == 1) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.monto +
-            "<br>Monto Acumulado</b></p>" +
-            "</div>" +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.numero +
-            "<br>Cobros Acumulado</b></p>" +
-            "</div>" +
-            "</div>"
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.monto +
+              "<br>Monto Acumulado</b></p>" +
+              "</div>" +
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.numero +
+              "<br>Cobros Acumulado</b></p>" +
+              "</div>" +
+              "</div>"
           );
         }
         if (opt.estatus == 2) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.monto +
-            "<br>Monto Acumulado</b></p>" +
-            "</div>" +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.numero +
-            "<br>Cobros Acumulado</b></p>" +
-            "</div>" +
-            "</div>"
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.monto +
+              "<br>Monto Acumulado</b></p>" +
+              "</div>" +
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.numero +
+              "<br>Cobros Acumulado</b></p>" +
+              "</div>" +
+              "</div>"
           );
         }
         if (opt.estatus == 3) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.monto +
-            "<br>Monto Acumulado</b></p>" +
-            "</div>" +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.numero +
-            "<br>Cobros Acumulado</b></p>" +
-            "</div>" +
-            "</div>"
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.monto +
+              "<br>Monto Acumulado</b></p>" +
+              "</div>" +
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.numero +
+              "<br>Cobros Acumulado</b></p>" +
+              "</div>" +
+              "</div>"
           );
         }
         if (opt.estatus == 4) {
           $("#estatus" + estatus + "_" + nodo).append(
             '<div class="row col justify-content-center text-center text-white bg-light bg-gradient mb-4">' +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.monto +
-            "<br>Monto Acumulado</b></p>" +
-            "</div>" +
-            '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
-            "<p><b>" +
-            opt.numero +
-            "<br>Cobros Acumulado</b></p>" +
-            "</div>" +
-            "</div>"
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.monto +
+              "<br>Monto Acumulado</b></p>" +
+              "</div>" +
+              '<div class="col-6 border border-primary rounded-2 bg-dark bg-gradient">' +
+              "<p><b>" +
+              opt.numero +
+              "<br>Cobros Acumulado</b></p>" +
+              "</div>" +
+              "</div>"
           );
         }
       });

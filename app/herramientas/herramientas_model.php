@@ -3,6 +3,7 @@ require_once("../../config/conexion.php");
 
 class Herramientas extends Conectar
 {
+
   public function cargarMenu($usuario)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -13,7 +14,8 @@ class Herramientas extends Conectar
     $sql = "SELECT A.modulo AS id , B.modulo 
               FROM tabla_modulo_usuario_data AS A 
               INNER JOIN tabla_modulo_data AS B ON A.modulo=B.id
-              WHERE usuario=?";
+              WHERE usuario=?
+              ORDER BY A.modulo ASC ";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $usuario);
@@ -28,7 +30,9 @@ class Herramientas extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT departamento FROM tabla_departamento_data WHERE usuario=? AND modulo=?";
+    $sql = "SELECT link, A.departamento FROM tabla_departamento_data AS A 
+              INNER JOIN tabla_depart_usuario_data AS B ON B.departamento=A.id 
+              WHERE usuario=? AND modulo=?";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $usuario);
@@ -44,7 +48,9 @@ class Herramientas extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT * FROM tabla_departamento_data WHERE usuario=? AND departamento=?";
+    $sql = "SELECT * FROM tabla_departamento_data AS A
+            INNER JOIN tabla_depart_usuario_data AS B ON B.departamento=A.id
+            WHERE usuario=? AND link=?";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $usuario);
@@ -60,7 +66,7 @@ class Herramientas extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT id FROM tabla_departamento_data WHERE departamento=?";
+    $sql = "SELECT id FROM tabla_departamento_data WHERE link=?";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $departamento);
@@ -80,6 +86,67 @@ class Herramientas extends Conectar
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $usuario);
     $sql->bindValue(2, $departamento);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function accionDepartamentoUsuario($usuario, $iddepat, $opcion)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_depart_accion_data WHERE usuario=? AND departamento=? AND opcion=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $usuario);
+    $sql->bindValue(2, $iddepat);
+    $sql->bindValue(3, $opcion);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function cargarModulosData()
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_modulo_data ORDER BY id ASC";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function cargarDepartamentoData($modulo)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_departamento_data WHERE modulo=? ORDER BY id ASC";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $modulo);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function validarpermidoDepartamentoData($usuario)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_depart_usuario_data WHERE usuario=? ORDER BY id ASC";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $usuario);
     $sql->execute();
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
