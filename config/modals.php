@@ -370,24 +370,24 @@ $tomorrow = date('Y-m-d', $newday);
             </div>
             <div class="col d-none sistema">
               <div class="form-check">
-                <input class="form-check-input boton" type="checkbox" value="#btn_reg_tasa" id="check_btn_4">
-                <label class="form-check-label" for="check_btn_4">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_tasa" id="check_btn_5">
+                <label class="form-check-label" for="check_btn_5">
                   Registrar Tasa
                 </label>
               </div>
             </div>
             <div class="col d-none sistema">
               <div class="form-check">
-                <input class="form-check-input boton" type="checkbox" value="#btn_reg_plan" id="check_btn_4">
-                <label class="form-check-label" for="check_btn_4">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_plan" id="check_btn_6">
+                <label class="form-check-label" for="check_btn_6">
                   Registrar Plan
                 </label>
               </div>
             </div>
             <div class="col d-none sistema">
               <div class="form-check">
-                <input class="form-check-input boton" type="checkbox" value="#btn_reg_nodo" id="check_btn_4">
-                <label class="form-check-label" for="check_btn_4">
+                <input class="form-check-input boton" type="checkbox" value="#btn_reg_nodo" id="check_btn_7">
+                <label class="form-check-label" for="check_btn_7">
                   Registrar Nodo
                 </label>
               </div>

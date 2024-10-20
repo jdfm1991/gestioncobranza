@@ -11,7 +11,7 @@ require_once('../menu.php');
   <div id="permitido" class="row justify-content-center g-2 mt-3">
     <h1 class="text-center">Modulo de Usuario</h1>
     <hr>
-    <div id="contenedor_fomulario" class="col d-none">
+    <div id="contenedor_fomulario" class="col">
       <div class="card">
         <div class="card-header text-center">
           <h3> Formulario de Registro </h3>
@@ -31,7 +31,7 @@ require_once('../menu.php');
               </div>
               <div class="col">
                 <label for="contrasenna" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="contrasenna" required>
+                <input type="password" class="form-control" id="contrasena" required>
               </div>
             </div>
             <div id="messege" class="text-center alert" role="alert">
@@ -46,12 +46,8 @@ require_once('../menu.php');
     </div>
     <div id="contenedor_tabla" class="col">
       <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-sm-8 text-center">
+        <div class="card-header text-center">
               <h2> Listado de Ususario </h2>
-            </div>
-          </div>
         </div>
         <div class="card-body">
           <table id="usuariotabla" class="table table-striped" style="width:100%">
@@ -74,13 +70,13 @@ require_once('../menu.php');
     </div>
     <div id="contenedor_permisos" class="col">
       <div class="card">
-        <div class="card-header text-center">
+        <div class="card-header text-center d-flex justify-content-center align-items-center">
           <h3> Gestion de Permisos </h3>
+          <button class="btn btn-outline-danger d-flex mx-5" id="salir" type="button"><label for=""><i class="bi bi-box-arrow-left"></i> Salir</label></button>
         </div>
         <div class="card-body">
 
           <div class="row justify-content-center align-items-center g-2">
-            <h4 class="text-center">Lista de Modulo</h4>
             <div id="list_modulo" class="row justify-content-center align-items-center g-2">
               
             </div>

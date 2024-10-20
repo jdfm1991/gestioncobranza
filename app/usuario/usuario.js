@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  $("#contenedor_permisos").hide();
   //************************************************/
   //********Accion para cargar la informacion*******/
   //***********el Datatable de los usuario**********/
@@ -48,7 +49,7 @@ $(document).ready(function () {
         $.each(data, function (idx, opt) {
           $("#nom_usuario").val(opt.nombre);
           $("#login_usuario").val(opt.usuario);
-          $("#contrasenna").prop("required", false);
+          $("#contrasena").prop("required", false);
         });
       },
     });
@@ -61,7 +62,7 @@ $(document).ready(function () {
     id = $("#idusuario").val();
     usuario = $("#login_usuario").val();
     nom_usuario = $("#nom_usuario").val();
-    contrasenna = $("#contrasenna").val();
+    contrasena = $("#contrasena").val();
     $.ajax({
       url: "usuario_controller.php?op=usuarioData",
       type: "POST",
@@ -70,7 +71,7 @@ $(document).ready(function () {
         id: id,
         usuario: usuario,
         nom_usuario: nom_usuario,
-        contrasenna: contrasenna,
+        contrasenna: contrasena,
       },
       success: function (data) {
         if (data.status == true) {
@@ -144,6 +145,8 @@ $(document).ready(function () {
   //*********Opcion para Eliminar un usuario*******/
   //*****************de la base de datos************/
   $(document).on("click", ".verpermisos", function () {
+    $("#contenedor_fomulario").hide();
+    $("#contenedor_permisos").show();
     id = $("#idusuario").val();
     $.ajax({
       url: URI_APP + "herramientas/herramientas_controller.php?op=modulos",
@@ -221,7 +224,16 @@ $(document).ready(function () {
     $( "#check_btn_1" ).prop( "checked", false )
     $( "#check_btn_2" ).prop( "checked", false )
     $( "#check_btn_3" ).prop( "checked", false )
-    $( "#check_btn_4" ).prop( "checked", false )   
+    $( "#check_btn_4" ).prop( "checked", false ) 
+    $( "#check_btn_5" ).prop( "checked", false )
+    $( "#check_btn_6" ).prop( "checked", false )
+    $( "#check_btn_7" ).prop( "checked", false )
+  });
+
+  $("#salir").click(function (e) { 
+    e.preventDefault();
+    $("#contenedor_fomulario").show();
+    $("#contenedor_permisos").hide();
   });
 });
 
@@ -303,14 +315,14 @@ function cargarDeportamentoModulo(modulo) {
 }
 
 function darPermisoDepartamentoUsuario(departamento) {
-  id = $("#idusuario").val();
+  usuario = $("#idusuario").val();
   const toastLiveExample = document.getElementById("notificar");
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
   $.ajax({
     url: "usuario_controller.php?op=darpermdep",
     type: "POST",
     dataType: "json",
-    data: { usuario: id, departamento: departamento },
+    data: { usuario: usuario, departamento: departamento },
     success: function (data) {
       $(".me-auto").text("Procesos Exitoso");
       $(".toast").css("background-color", "rgb(29 255 34 / 85%)");
@@ -319,6 +331,7 @@ function darPermisoDepartamentoUsuario(departamento) {
       $("#notificacion").text(data.message);
       $("#iddep").val(departamento);
       toastBootstrap.show();
+      verificarAccion(departamento,usuario)
       if (departamento==3) {
         $("#auto_btn").removeClass('d-none');
       } else {
@@ -334,8 +347,7 @@ function darPermisoDepartamentoUsuario(departamento) {
       }else{
         $(".regular").removeClass('d-none');
         $(".sistema").addClass('d-none');
-      }
-      
+      }     
     },
   });
 }
@@ -407,9 +419,28 @@ function limpiarFormulario() {
   $("#login_usuario").val("");
   $("#nom_usuario").val("");
   $("#ape_usuario").val("");
-  $("#contrasenna").val("");
+  $("#contrasena").val("");
   $("#correo").val("");
   $("#telefono").val("");
   $("#roles").val("");
   $("#estatus").val("");
+}
+
+function verificarAccion(departamento,usuario) {
+  $.ajax({
+    url: "usuario_controller.php?op=veraccion",
+    type: "POST",
+    dataType: "json",
+    data: { usuario: usuario, departamento: departamento },
+    success: function (data) {
+      const boton = document.getElementsByClassName('boton')
+      $.each(data, function (idx, opt) {
+        for (let i = 0; i < boton.length; i++) {
+          if (boton[i].value==opt.boton) {
+            $("#"+boton[i].id).prop( "checked", true )
+          }
+        }
+      });
+    },
+  });
 }

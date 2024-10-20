@@ -194,6 +194,22 @@ class Usuario extends Conectar
     return $sql;
   }
 
+  public function verAccionUsuarioDepartemento($user, $departamento)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_depart_boton_data WHERE usuario=? AND departamento=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $user);
+    $sql->bindValue(2, $departamento);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function darAccionDepartamentoUsuario($user, $departamento, $boton)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -218,12 +234,12 @@ class Usuario extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "DELETE FROM tabla_depart_usuario_data WHERE departamento=? AND usuario=? AND boton=?";
+    $sql = "DELETE FROM tabla_depart_boton_data WHERE departamento=? AND usuario=? AND boton=?";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $departamento);
     $sql->bindValue(2, $user);
-    $sql->bindValue(2, $boton);
+    $sql->bindValue(3, $boton);
     $sql->execute();
     return $sql;
   }

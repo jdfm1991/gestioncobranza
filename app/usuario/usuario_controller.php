@@ -7,12 +7,12 @@ $usuario = new Usuario();
 
 //---- Variables Para Registro de Usuario---//
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$user = (isset($_POST['usuario'])) ? $_POST['usuario'] : '';
+$user = (isset($_POST['usuario'])) ? $_POST['usuario'] : '2';
 $nom_usuario = (isset($_POST['nom_usuario'])) ? $_POST['nom_usuario'] : '';
 $contrasena = (isset($_POST['contrasenna'])) ? $_POST['contrasenna'] : '';
 $modulo = (isset($_POST['modulo'])) ? $_POST['modulo'] : '';
-$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : '';
-$boton = (isset($_POST['boton'])) ? $_POST['boton'] : '';
+$departamento = (isset($_POST['departamento'])) ? $_POST['departamento'] : '2';
+$boton = (isset($_POST['boton'])) ? $_POST['boton'] : '#btn_ver';
 $hoy = date('Y-m-d');
 
 switch ($_GET["op"]) {
@@ -149,6 +149,17 @@ switch ($_GET["op"]) {
     } else {
       $dato['status']  = false;
       $dato['message'] = 'Error al Elimino La Infomacion';
+    }
+    echo json_encode($dato, JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'veraccion':
+    $dato = array();
+    $data = $usuario->verAccionUsuarioDepartemento($user, $departamento);
+    foreach ($data as $data) {
+      $sub_array = array();
+      $sub_array['boton'] = $data['boton'];
+      $dato[] = $sub_array;
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
