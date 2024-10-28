@@ -51,10 +51,10 @@ switch ($_GET["op"]) {
     $dato = array();
     if (empty($id)) {
       $verificar = $cliente->verificarDatosCliente($documento);
-      if ($verificar) {
+      /*if ($verificar) {
         $dato['status']  = false;
         $dato['message'] = 'Ya Existe Un Cliente Registrado con Este N° D.N.I - Cedula - R.I.F';
-      } else {
+      } else {*/
         $id = uniqid();
         $data = $cliente->guardarDatosCliente($id, $nombre, $documento, $correo, $telefono, $estatus);
         if ($data) {
@@ -64,7 +64,7 @@ switch ($_GET["op"]) {
           $dato['status']  = false;
           $dato['message'] = 'Error al Guardar La Infomacion';
         }
-      }
+      //}
     } else {
       $data = $cliente->actualizarDatosCliente($id, $nombre, $documento, $correo, $telefono, $estatus);
       if ($data) {

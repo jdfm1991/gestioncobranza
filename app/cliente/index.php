@@ -54,11 +54,11 @@ require_once('../menu.php');
               </div>
               <div class="col">
                 <label for="documento_cliente" class="form-label">N° D.N.I - Cedula - R.I.F</label>
-                <input type="text" class="form-control" id="documento_cliente" required>
+                <input type="text" class="form-control" id="documento_cliente">
               </div>
               <div class="col">
                 <label for="correo_cliente" class="form-label">Correo</label>
-                <input type="email" class="form-control" id="correo_cliente" required>
+                <input type="email" class="form-control" id="correo_cliente" >
               </div>
             </div>
             <div class="row mb-3">

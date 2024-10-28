@@ -120,7 +120,7 @@ $(document).ready(function () {
   //************************************************/
   //********Accion para Enviar y guardar la*********/
   //*********informacion del usuario************/
-  $("#btn_reg_form").submit(function (e) {
+  $("#r_cliente_form").submit(function (e) {
     e.preventDefault();
     id = $("#id_cliente").val();
     nombre = $("#nombre_cliente").val();
