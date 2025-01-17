@@ -59,7 +59,7 @@ switch ($_GET["op"]) {
     $dato = array();
     if (empty($id)) {
       $id = uniqid();
-      $nuevo = $contrato->cargarSiguienteContrato();
+      $nuevo = $contrato->cargarSiguienteContrato($fecha_apertura);
       $data = $contrato->guardarDatosContrato($id, $fecha_apertura, $cliente, $nuevo, $plan, $nodo, $direccion, $estatus);
       if ($data) {
         $dato['status']  = true;

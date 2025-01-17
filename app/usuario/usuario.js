@@ -200,7 +200,7 @@ $(document).ready(function () {
   //******asignarmermisod de departamento********/
   $(document).on("change", ".perdepartamento", function (e) {
     if ($(this).is(":checked")) {
-      departamento = $(this).val()
+      departamento = $(this).val()      
       darPermisoDepartamentoUsuario(departamento)
     } else {
       departamento = $(this).val()
@@ -211,7 +211,7 @@ $(document).ready(function () {
   $(".boton").change(function (e) { 
     e.preventDefault();
     if ($(this).is(":checked")) {
-      boton = $(this).val()
+      boton = $(this).val()     
       permitirAccionDepartamento(boton)
     } else {
       boton = $(this).val()

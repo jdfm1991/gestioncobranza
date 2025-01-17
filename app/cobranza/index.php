@@ -4,6 +4,7 @@ require_once("../../config/conexion.php");
 require_once("../../config/sesion_activa.php");
 require_once('../head.php');
 require_once('../menu.php');
+$hoy = date('Y-m-d');
 ?>
 <input type="hidden" id="id_cliente">
 <input type="hidden" id="id_contrato">
@@ -50,7 +51,18 @@ require_once('../menu.php');
         <div class="card-body">
           <form id="r_cobranza_form">
             <div class="row mb-3">
-              <div class="col-3">
+              <div class="col-3 mt-2">
+                <div class="form-floating">
+                  <select id="cobro_tipo" class="form-control" required>
+                    <option>_-_-Selecciones-_-_</option>
+                    <option value="1">Cobro Mensualidad</option>
+                    <option value="2">Cobro Servicio</option>
+                    <!--Carga Mediante Ajax-->
+                  </select>
+                  <label for="cobro_tipo" class="form-label">Seleccione Una Opcion</label>
+                </div>
+              </div>
+              <div class="col-2">
                 <label for="contrato_cliente" class="form-label">N° Contrato</label>
                 <input type="text" class="form-control" id="contrato_cliente" required disabled>
               </div>
@@ -63,6 +75,10 @@ require_once('../menu.php');
               </div>
             </div>
             <div class="row mb-3">
+              <div class="col-3">
+                <label for="fecha_cobro_r" class="form-label">Periodo Recibo</label>
+                <input type="date" class="form-control" id="fecha_cobro_r" value="<?php echo $hoy ?>" required>
+              </div>
               <div class="col">
                 <label for="concepto_cobro" class="form-label">Concepto de Cobro</label>
                 <input type="text" class="form-control" id="concepto_cobro" required>

@@ -169,7 +169,7 @@ switch ($_GET["op"]) {
     $data = $usuario->darAccionDepartamentoUsuario($user, $departamento, $boton);
     if ($data) {
       $dato['status']  = true;
-      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+      $dato['message'] = 'Se Concedio Permido de Manera Satisfactoria';
     } else {
       $dato['status']  = false;
       $dato['message'] = 'Error al Elimino La Infomacion';
@@ -182,7 +182,7 @@ switch ($_GET["op"]) {
     $data = $usuario->quitarAccionDepartamentoUsuario($user, $departamento, $boton);
     if ($data) {
       $dato['status']  = true;
-      $dato['message'] = 'Se Registro Permido de Manera Satisfactoria';
+      $dato['message'] = 'Se Quitaron Permido de Manera Satisfactoria';
     } else {
       $dato['status']  = false;
       $dato['message'] = 'Error al Elimino La Infomacion';

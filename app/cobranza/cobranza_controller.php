@@ -8,15 +8,27 @@ require_once("cobranza_model.php");
 $cobranza = new Cobranza();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '';
+$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '670049d82491b';
 $id_cliente = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : '';
+$cobro_tipo = (isset($_POST['cobro_tipo'])) ? $_POST['cobro_tipo'] : '1';
+$fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
 $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
 $contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
 $concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
+
+/**php 8.1 */
+/**
+$dateTimeObj = new DateTime('now', new DateTimeZone('America/Caracas'));
+$dateFormatted = IntlDateFormatter::formatObject($dateTimeObj, 'MMMM', 'es');
+ */
 $hoy = date('Y-m-d');
 $total = 0;
+/**php 8.1 */
+/** 
+$periodo_actual = ucwords($dateFormatted) . '-' . date('Y', strtotime($hoy));
+*/
 $periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
 
 switch ($_GET["op"]) {
@@ -24,10 +36,10 @@ switch ($_GET["op"]) {
     $dato = array();
     $contador = 0;
     $estatus = 1;
-    $detalle = ucwords(strftime("Cobro de Servicio Del Mes De %B"));
+    $detalle = ucwords("Cobro de Servicio Del Mes De " . $periodo_actual);
     $mes = date('F', strtotime($hoy));
     $data = $cobranza->cargarDatosContratos();
-    $n_contrato = count($data);    
+    $n_contrato = count($data);
     if ($n_contrato > 0) {
       foreach ($data as $data) {
         $contrato = $data['id'];
@@ -38,7 +50,7 @@ switch ($_GET["op"]) {
         $verificar = $cobranza->buscarDatosCobranza($contrato);
         if (!$verificar) {
           $nuevo = $cobranza->cargarSiguienteOrden();
-          
+
           $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus);
           if ($regcobranza) {
             $contador++;
@@ -84,28 +96,23 @@ switch ($_GET["op"]) {
 
   case 'cobranzaData':
     $dato = array();
-    if (empty($id)) {
+    if ($cobro_tipo==2) {
       $plan = 5;
-      $estatus = 1;
-      $nuevo = $cobranza->cargarSiguienteOrden();
-      $data = $cobranza->guardarDatosCobranza($hoy, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus);
-      if ($data) {
-        $dato['status']  = true;
-        $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';
-      } else {
-        $dato['status']  = false;
-        $dato['message'] = 'Error al Guardar La Infomacion';
-      }
     } else {
-      $data = $contrato->actualizarDatosContrato($id, $plan, $corte, $estatus);
-      if ($data) {
-        $dato['status']  = true;
-        $dato['message'] = 'Se Actualizo La Infomacion de Manera Satisfactoria';
-      } else {
-        $dato['status']  = false;
-        $dato['message'] = 'Error al Actualizar La Infomacion';
-      }
+      $dataplan = $cobranza->buscarPlanOrden($id_contrato);
+      $plan = $dataplan;
     }
+    $estatus = 1;
+    $nuevo = $cobranza->cargarSiguienteOrden();
+    $data = $cobranza->guardarDatosCobranza($fecha, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus);
+    if ($data) {
+      $dato['status']  = true;
+      $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';
+    } else {
+      $dato['status']  = false;
+      $dato['message'] = 'Error al Guardar La Infomacion';
+    }
+
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 

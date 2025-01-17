@@ -13,7 +13,7 @@ class Cobranza extends Conectar
     //QUERY
     $sql = "SELECT A.id, A.cliente, A.nodo, A.plan, B.costo, B.detalle 
               FROM tabla_contrato_data AS A 
-              INNER JOIN tabla_contrato_plan AS B ON B.id=A.plan;
+              INNER JOIN tabla_contrato_plan AS B ON B.id=A.plan
               WHERE estatus =2";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
@@ -35,6 +35,21 @@ class Cobranza extends Conectar
     $sql = $conectar->prepare($sql);
     $sql->execute();
     return ($sql->fetch(PDO::FETCH_ASSOC)['orden']);
+  }
+
+  public function buscarPlanOrden($id)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT plan FROM tabla_contrato_data WHERE id=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $id);
+    $sql->execute();
+    return ($sql->fetch(PDO::FETCH_ASSOC)['plan']);
   }
 
   public function cargarNotaEntrega($id)
@@ -142,7 +157,7 @@ class Cobranza extends Conectar
     parent::set_names();
     //QUERY
     $sql = "SELECT * FROM tabla_cobranza_data 
-            WHERE contrato=? AND YEAR(fecha_creacion)=YEAR(NOW()) AND MONTH(fecha_creacion)=MONTH(NOW()) AND plan!=5";
+            WHERE contrato=? AND YEAR(fecha_creacion)=YEAR(NOW()) AND MONTH(fecha_creacion)=MONTH(NOW()) AND plan!=5 AND estatus!=4";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $contrato);

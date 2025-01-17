@@ -36,18 +36,20 @@ class Contrato extends Conectar
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function cargarSiguienteContrato()
+  public function cargarSiguienteContrato($fecha_apertura)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
     //CUANDO ES APPWEB ES CONEXION.
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT CONCAT('C-',LPAD(COUNT(*) + 1, 3, '0'), '/', YEAR(NOW())) AS contrato
+    $sql = "SELECT CONCAT('C-',LPAD(COUNT(*) + 1, 3, '0'), '/', YEAR(?)) AS contrato
             FROM tabla_contrato_data
-            WHERE year(fecha_apertura) = YEAR(NOW())";
+            WHERE year(fecha_apertura) = YEAR(?)";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $fecha_apertura);
+    $sql->bindValue(2, $fecha_apertura);
     $sql->execute();
     return ($sql->fetch(PDO::FETCH_ASSOC)['contrato']);
   }

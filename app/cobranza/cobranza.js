@@ -92,6 +92,52 @@ $(document).ready(function () {
     $("#box_nodo").hide();
     $("#box_cliente").hide();
   });
+
+  $("#cobro_tipo").change(function (e) {
+    e.preventDefault();
+    cobro_tipo = $("#cobro_tipo").val();
+    fecha = $("#fecha_cobro_r").val();
+
+    const today = new Date(fecha);
+    const month = today.toLocaleString("default", { month: "long" });
+    const anno = today.getFullYear();
+
+    monthcapital = month.charAt(0).toUpperCase() + month.slice(1);
+
+    if (cobro_tipo == "1") {
+      $("#concepto_cobro").val(
+        "Cobro De Servicio Del Mes De " + monthcapital + " Del " + anno
+      );
+    }
+
+    if (cobro_tipo == "2") {
+      $("#concepto_cobro").val("");
+      $("#monto_cobro").val("");
+    }
+  });
+
+  $("#fecha_cobro_r").change(function (e) {
+    e.preventDefault();
+    cobro_tipo = $("#cobro_tipo").val();
+    fecha = $("#fecha_cobro_r").val();
+
+    const today = new Date(fecha);
+    const month = today.toLocaleString("default", { month: "long" });
+    const anno = today.getFullYear();
+
+    monthcapital = month.charAt(0).toUpperCase() + month.slice(1);
+
+    if (cobro_tipo == "1") {
+      $("#concepto_cobro").val(
+        "Cobro De Servicio Del Mes De " + monthcapital + " Del " + anno
+      );
+    }
+
+    if (cobro_tipo == "2") {
+      $("#concepto_cobro").val("");
+    }
+  });
+
   $("#detalle_cxc").change(function (e) {
     e.preventDefault();
     forma_cxc = $("#forma_cxc").val();
@@ -160,6 +206,8 @@ $(document).ready(function () {
     e.preventDefault();
     id_contrato = $("#id_contrato").val();
     id_cliente = $("#id_cliente").val();
+    cobro_tipo = $("#cobro_tipo").val();
+    fecha = $("#fecha_cobro_r").val();
     nodo = $("#nodo").val();
     contrato = $("#contrato").val();
     concepto = $("#concepto_cobro").val();
@@ -171,6 +219,8 @@ $(document).ready(function () {
       data: {
         id_contrato: id_contrato,
         id_cliente: id_cliente,
+        cobro_tipo: cobro_tipo,
+        fecha: fecha,
         contrato: contrato,
         concepto: concepto,
         monto: monto,
@@ -210,13 +260,12 @@ $(document).ready(function () {
     forma_cxc = $("#forma_cxc").val();
     id_cliente = $("#id_cliente").val();
     nodo_cxc = $("#nodo_cxc").val();
-    id = (id_cliente) ? id_cliente : nodo_cxc;
+    id = id_cliente ? id_cliente : nodo_cxc;
     if (id) {
       window.open("cxc_pdf.php?op=" + forma_cxc + "&id=" + id, "_blank");
     } else {
       window.open("cxc_pdf.php?op=" + forma_cxc, "_blank");
     }
-    
   });
 });
 //************************************************/
@@ -388,18 +437,26 @@ function cargarCliente(id) {
 //************************************************/
 //********Opcion para cargar informacion**********/
 //**********de un contrato selecionado************/
-function cargarContratoCliente(id) {  
-  $("#modalcontrato").modal("hide");  
+function cargarContratoCliente(id) {
+  cobro_tipo = $("#cobro_tipo").val();
+
+
+      
+
+  $("#modalcontrato").modal("hide");
   $.ajax({
     url: "../contrato/contrato_controller.php?op=contrato",
     method: "POST",
     dataType: "json",
     data: { id: id },
     success: function (data) {
-      $.each(data, function (idx, opt) {
+      $.each(data, function (idx, opt) {        
         $("#id_cliente").val(opt.cliente);
         $("#id_contrato").val(opt.id);
         $("#nodo").val(opt.nodo);
+        if (cobro_tipo == 1) {
+          $("#monto_cobro").val(opt.costo);
+        }
         $("#contrato_cliente").val(opt.contrato);
         $("#nombre_cliente").val(opt.nombre_apel);
       });
