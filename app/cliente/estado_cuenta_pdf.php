@@ -90,14 +90,17 @@ if (!$id) {
     $saldo = $saldo + $debe - $haber;
     $contador1++;
     $class = ($saldo <= 0) ? 'pago' : 'deuda' ;
-    $body .= '   
+    if ($saldos['saldo']>0) {
+      $body .= '   
             <tr class="'.$class.'">
                 <td colspan="2" class="data-1 text-table">' . $saldos['contrato'] . '</td>
-                <td colspan="2" class="data-1 text-table">Saldo a Favor del Cliente</td>
+                <td colspan="2" class="data-1 text-table">Pendiente Por Pagar</td>
                 <td class="data-1 text-table">' . number_format($debe, 2)  . ' </td>
                 <td class="data-1 text-table">' . number_format($haber, 2) . ' </td>
                 <td class="data-1 text-table">' . number_format($saldo, 2) . ' </td>
               </tr>';
+    }
+    
   }
     
   $body .= '

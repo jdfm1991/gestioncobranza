@@ -4,17 +4,20 @@ require_once("../../config/const.php");
 require_once("../../assets/pdf/autoload.php");
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
+require_once("../cobranza/cobranza_model.php");
 require_once("pago_model.php");
 
 $id = (isset($_GET['id'])) ? $_GET['id'] : '';
 
 $pago = new Pago();
+$cobranza = new Cobranza();
 
 $data = $pago->cargarDatosPago($id);
 $item = $pago->cargarDatosPagoDetalle2($id);
 
 foreach ($data as $data) {
   $id = $data['id'];
+  $idcontrato = $data['idcontrato'];
   $fecha_registro = $data['fecha_registro'];
   
   $nota = $data['nota'];
@@ -98,8 +101,19 @@ foreach ($item as $item) {
           <td>' . $item['orden'] . '</td>
           <td>' . $item['fecha_registro'] . '</td>
           <td>' . $item['detalle'] . '</td>
-          <td>' . number_format($item['monto_cambio'], 2) . '</td>
+          <td>' . number_format($item['pago'], 2) . '</td>
         </tr>';
+}
+$saldos = $cobranza->cargarSaldoContrato($idcontrato);
+
+foreach ($saldos as $saldos) {
+    $body .= '   
+          <tr>
+            <td colspan="2">Saldo a Favor Sobre Contraro</td>
+            <td colspan="2">'.$saldos['contrato'].'</td>
+            <td>' . number_format($saldos['saldo'], 2) . ' </td>
+          </tr>';
+  
 }
 $body .= '
         <tr>
@@ -172,4 +186,5 @@ $mpdf->WriteHTML($body, \Mpdf\HTMLParserMode::HTML_BODY);
 
 // Output a PDF file directly to the browser
 $mpdf->Output($nota.'.pdf',\Mpdf\Output\Destination::INLINE);
+
 

@@ -41,12 +41,10 @@ switch ($_GET["op"]) {
         $nodo = $data['nodo'];
         $plan = $data['plan'];
         $monto = $data['costo'];
-
         $verificar = $cobranza->buscarDatosCobranza($contrato);
         if (!$verificar) {
           $id = uniqid();
           $nuevo = $cobranza->cargarSiguienteOrden();
-
           $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus, $id);
           if ($data['saldo'] > 0) {
             $nota_id = uniqid();
@@ -56,12 +54,10 @@ switch ($_GET["op"]) {
             $p_pago = 0.00;
             $tasa = 0.00;
             $referencia = 'Capital a Favor Abono';
-
             $datap = $pago->guardarDatosPago($nota_id, $hoy, $contrato, $cliente, $forma_pago, $fp_detalle, $data['costo'], $hoy, $tasa, $referencia, $data['saldo'], $p_pago, $nota);
             if ($datap) {
               $estatus = 3;
-              
-              $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$saldo);
+              $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$data['saldo']);
               $cobro = $pago->actualizarCobranza($id, $estatus, $data['saldo']);
               $saldo = 0;
               $contra = $pago->actualizarContrato($contrato, $saldo);
@@ -112,9 +108,7 @@ switch ($_GET["op"]) {
   case 'cobranzaData':
     $dato = array();
     $id = uniqid();
-
     $saldo = $cobranza->cargarDatosContrato($id_contrato);
-
     if ($cobro_tipo == 2) {
       $plan = 5;
     } else {
@@ -123,7 +117,6 @@ switch ($_GET["op"]) {
     }
     $estatus = 1;
     $nuevo = $cobranza->cargarSiguienteOrden();
-
     $data = $cobranza->guardarDatosCobranza($fecha, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus, $id);
     if ($saldo > 0) {
       $nota_id = uniqid();
@@ -133,7 +126,6 @@ switch ($_GET["op"]) {
       $p_pago = 0.00;
       $tasa = 0.00;
       $referencia = 'Capital a Favor Abono';
-
       $datap = $pago->guardarDatosPago($nota_id, $hoy, $id_contrato, $id_cliente, $forma_pago, $fp_detalle, $saldo, $hoy, $tasa, $referencia, $saldo, $p_pago, $nota);
       if ($datap) {
         $estatus = 3;
@@ -143,12 +135,6 @@ switch ($_GET["op"]) {
         $contra = $pago->actualizarContrato($id_contrato, $saldo);
       }
     } 
-
-
-
-
-    
-    
     if ($data) {
       $dato['status']  = true;
       $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';
@@ -156,7 +142,6 @@ switch ($_GET["op"]) {
       $dato['status']  = false;
       $dato['message'] = 'Error al Guardar La Infomacion';
     }
-
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 

@@ -154,7 +154,7 @@ class Pago extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT A.id,A.fecha_registro,nota,A.fecha_pago,C.contrato,D.plan,D.costo, B.nombre_apel,B.documento,C.direccion,B.correo,B.telefono,E.forma,F.detalle,A.referencia,A.tasa,A.monto_dolar,A.monto_cambio,A.monto_pago,A.forma_pago,A.detalle_pago  
+    $sql = "SELECT A.id,A.fecha_registro,nota,A.fecha_pago,C.contrato,D.plan,D.costo, B.nombre_apel,B.documento,C.direccion,B.correo,B.telefono,E.forma,F.detalle,A.referencia,A.tasa,A.monto_dolar,A.monto_cambio,A.monto_pago,A.forma_pago,A.detalle_pago, A.contrato AS idcontrato 
             FROM tabla_pago_data AS A 
             INNER JOIN tabla_cliente_data AS B ON B.id=A.cliente
             INNER JOIN tabla_contrato_data AS C ON C.id=A.contrato
@@ -196,7 +196,7 @@ class Pago extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT B.fecha_creacion, B.orden, B.detalle,C.fecha_registro ,C.monto_cambio, C.nota
+    $sql = "SELECT B.fecha_creacion, B.orden, B.detalle,C.fecha_registro ,A.pago, C.nota
               FROM tabla_cobranza_pago AS A 
               INNER JOIN tabla_cobranza_data AS B ON B.id=A.orden
               INNER JOIN tabla_pago_data AS C ON C.id=A.nota

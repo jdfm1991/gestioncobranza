@@ -227,7 +227,7 @@ class Cobranza extends Conectar
     //QUERY
     $sql = "SELECT A.contrato, B.fecha_creacion,B.orden, B.detalle, B.monto,B.abono 
               FROM tabla_contrato_data AS A 
-              INNER JOIN tabla_cobranza_data AS B ON A.cliente=B.cliente
+              INNER JOIN tabla_cobranza_data AS B ON A.cliente=B.cliente AND A.id=B.contrato
               WHERE A.cliente=? AND A.estatus!=4";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
@@ -242,10 +242,11 @@ class Cobranza extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT contrato, saldo FROM tabla_contrato_data WHERE cliente=?";
+    $sql = "SELECT contrato, saldo FROM tabla_contrato_data WHERE cliente=? OR id=?";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $cliente);
+    $sql->bindValue(2, $cliente);
     $sql->execute();
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }

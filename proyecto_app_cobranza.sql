@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-10-2024 a las 20:12:02
+-- Tiempo de generación: 18-01-2025 a las 14:50:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -41,13 +41,8 @@ CREATE TABLE `tabla_cliente_data` (
 --
 
 INSERT INTO `tabla_cliente_data` (`id`, `nombre_apel`, `documento`, `correo`, `telefono`, `estatus`) VALUES
-('6700474ad0b14', 'jovanni D. Franco M.', 'V-20975144-1', 'correo@gmail.com', '0424-9254565', 1),
-('6700479d15fd1', 'Antoima Grabriela', 'V-25994336', 'otrocorreo@gmail.com', '0412-9543685', 2),
-('670047f916710', 'Carlos Manuel Garcias', 'V-25987159', 'cmgarcias@gmail.com', '0426-5872358', 1),
-('6707fce952572', 'juan jose', '145879656', 'juan@juan.com', '4249585687', 1),
-('6708fc1fe2981', 'carlos martinez', '14587965', 'carlos@carlos.com', '4249585687', 1),
-('6708fd131e4a4', 'jesus alvarado', 'V-25987159', 'juan@juan.com', '25482151', 1),
-('6708ff135a0aa', 'jesus alvarado 2', 'V-259871565', 'juan@juan.com', '4249585687', 1);
+('678a73525cd80', 'Carlos Manuel Garcias', 'V-25987159', 'juan@juan.com', '123147', 1),
+('678a73664e3a6', 'jesus alvarado', 'V-259871565', 'correo@gmail.com', '159123', 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +71,7 @@ INSERT INTO `tabla_cliente_estatus` (`id`, `estatus`) VALUES
 --
 
 CREATE TABLE `tabla_cobranza_data` (
-  `id` int(11) NOT NULL,
+  `id` varchar(20) NOT NULL,
   `fecha_creacion` date NOT NULL,
   `orden` varchar(20) NOT NULL,
   `contrato` varchar(20) NOT NULL,
@@ -94,18 +89,12 @@ CREATE TABLE `tabla_cobranza_data` (
 --
 
 INSERT INTO `tabla_cobranza_data` (`id`, `fecha_creacion`, `orden`, `contrato`, `cliente`, `nodo`, `plan`, `monto`, `abono`, `detalle`, `estatus`) VALUES
-(1, '2024-10-04', 'OC-001/2024', '670049d82491b', '670047f916710', '1', 1, 20.0000, 20.0000, 'Cobro De Servicio Del Mes De Octubre', 2),
-(2, '2024-10-04', 'OC-002/2024', '67004a3836e4c', '6700474ad0b14', '1', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Octubre', 1),
-(3, '2024-10-04', 'OC-003/2024', '67004a188a520', '6700474ad0b14', '2', 5, 10.0000, 30.0000, 'Visita Tecnica Reparacion de Cableado', 2),
-(4, '2024-10-05', 'OC-004/2024', '670049d82491b', '670047f916710', '1', 1, 20.0000, 15.0000, 'Cobro De Servicio Del Mes De Octubre', 3),
-(5, '2024-10-06', 'OC-005/2024', '670049d82491b', '670047f916710', '1', 1, 20.0000, 20.0008, 'Cobro De Servicio Del Mes De Octubre', 2),
-(6, '2024-10-06', 'OC-006/2024', '670049f0cdaf0', '670047f916710', '3', 5, 30.0000, 15.0000, 'cosas de revsion', 3),
-(7, '2024-10-06', 'OC-007/2024', '6702dc09557fc', '670047f916710', '1', 5, 20.0000, 0.0000, 'cobro adicional', 1),
-(13, '2024-10-11', 'OC-008/2024', '670049f0cdaf0', '670047f916710', '3', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Octubre', 1),
-(14, '2024-10-11', 'OC-009/2024', '67004a188a520', '6700474ad0b14', '2', 1, 20.0000, 30.0000, 'Cobro De Servicio Del Mes De Octubre', 2),
-(15, '2024-10-11', 'OC-010/2024', '6702dc09557fc', '670047f916710', '1', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Octubre', 1),
-(16, '2024-10-11', 'OC-011/2024', '670901010170c', '6708fc1fe2981', '2', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Octubre', 1),
-(17, '2024-10-11', 'OC-012/2024', '670049d82491b', '670047f916710', '1', 5, 10.0000, 5.0000, 'visita tecnica', 3);
+('678ba1241e573', '2025-01-18', 'OC-003/2025', '678b484b69895', '678a73525cd80', '1', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Enero-2025', 1),
+('678ba12420b91', '2025-01-18', 'OC-004/2025', '678b4869c639d', '678a73664e3a6', '4', 6, 40.0000, 40.0000, 'Cobro De Servicio Del Mes De Enero-2025', 2),
+('678ba1cb03ae2', '2025-01-18', 'OC-005/2025', '678ba16e1eda8', '678a73664e3a6', '3', 1, 20.0000, 0.0000, 'Cobro De Servicio Del Mes De Enero-2025', 1),
+('678ba1cb0951d', '2025-01-18', 'OC-006/2025', '678ba1bc74442', '678a73664e3a6', '1', 7, 30.0000, 20.0000, 'Cobro De Servicio Del Mes De Enero-2025', 3),
+('67d967454934d', '2025-03-18', 'OC-001/2025', '678b484b69895', '678a73525cd80', '1', 1, 20.0000, 10.0000, 'Cobro De Servicio Del Mes De Marzo-2025', 3),
+('67d9674551c0e', '2025-03-18', 'OC-002/2025', '678b4869c639d', '678a73664e3a6', '4', 6, 40.0000, 40.0000, 'Cobro De Servicio Del Mes De Marzo-2025', 2);
 
 -- --------------------------------------------------------
 
@@ -137,22 +126,20 @@ INSERT INTO `tabla_cobranza_estatus` (`id`, `estatus`) VALUES
 CREATE TABLE `tabla_cobranza_pago` (
   `id` int(11) NOT NULL,
   `orden` varchar(20) NOT NULL,
-  `nota` varchar(20) NOT NULL
+  `nota` varchar(20) NOT NULL,
+  `pago` decimal(28,4) NOT NULL DEFAULT 0.0000
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tabla_cobranza_pago`
 --
 
-INSERT INTO `tabla_cobranza_pago` (`id`, `orden`, `nota`) VALUES
-(1, '1', '6702d01456565'),
-(2, '4', '6702d03bae22b'),
-(3, '5', '6702d0795228d'),
-(4, '4', '6702d75065346'),
-(5, '5', '6702da9f570da'),
-(6, '17', '67093dc7a4892'),
-(7, '3', '67093e0c19a27'),
-(8, '14', '67093e0c19a27');
+INSERT INTO `tabla_cobranza_pago` (`id`, `orden`, `nota`, `pago`) VALUES
+(1, '67d967454934d', '67d967454d9ba', 10.0000),
+(2, '67d9674551c0e', '67d9674552fc4', 5.0000),
+(3, '678ba1cb0951d', '678ba2c4672c2', 20.0000),
+(4, '678ba12420b91', '678ba8255e00b', 40.0000),
+(5, '67d9674551c0e', '678ba8255e00b', 35.0000);
 
 -- --------------------------------------------------------
 
@@ -168,20 +155,19 @@ CREATE TABLE `tabla_contrato_data` (
   `plan` int(11) NOT NULL,
   `nodo` int(11) NOT NULL,
   `direccion` varchar(200) NOT NULL,
-  `estatus` int(11) NOT NULL
+  `estatus` int(11) NOT NULL,
+  `saldo` decimal(28,4) NOT NULL DEFAULT 0.0000
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tabla_contrato_data`
 --
 
-INSERT INTO `tabla_contrato_data` (`id`, `fecha_apertura`, `cliente`, `contrato`, `plan`, `nodo`, `direccion`, `estatus`) VALUES
-('670049d82491b', '2024-09-02', '670047f916710', 'C-001/2024', 1, 1, 'La mansion de mi Abuela', 2),
-('670049f0cdaf0', '2024-08-17', '670047f916710', 'C-002/2024', 1, 3, 'La otra casa de mi mama', 2),
-('67004a188a520', '2024-10-04', '6700474ad0b14', 'C-003/2024', 1, 2, 'La direccion exacta', 1),
-('67004a3836e4c', '2024-08-25', '6700474ad0b14', 'C-004/2024', 1, 1, 'Ahi mismitico, lleganod a la cazona', 2),
-('6702dc09557fc', '2024-08-08', '670047f916710', 'C-005/2024', 1, 1, 'fhfdh', 2),
-('670901010170c', '2024-08-15', '6708fc1fe2981', 'C-006/2024', 1, 2, 'la direccion', 2);
+INSERT INTO `tabla_contrato_data` (`id`, `fecha_apertura`, `cliente`, `contrato`, `plan`, `nodo`, `direccion`, `estatus`, `saldo`) VALUES
+('678b484b69895', '2024-12-01', '678a73525cd80', 'C-001/2024', 1, 1, 'la casa de el', 2, 0.0000),
+('678b4869c639d', '2024-11-01', '678a73664e3a6', 'C-002/2024', 6, 4, 'ota  as', 2, 0.9259),
+('678ba16e1eda8', '2024-12-05', '678a73664e3a6', 'C-001/2025', 1, 3, 'oknoooi', 2, 0.0000),
+('678ba1bc74442', '2024-11-20', '678a73664e3a6', 'C-004/2024', 7, 1, 'lkjnon', 2, 0.0000);
 
 -- --------------------------------------------------------
 
@@ -244,7 +230,8 @@ CREATE TABLE `tabla_contrato_plan` (
 INSERT INTO `tabla_contrato_plan` (`id`, `plan`, `detalle`, `costo`) VALUES
 (1, 'Plan Basico Ideal', 'Servicio de 20Mb de Velocidad de Internet', 20.0000),
 (5, 'Contrato Servicio', 'cosas de servicio', 0.0000),
-(6, 'plan avanzado', '40 mb de navegacion', 40.0000);
+(6, 'plan avanzado', '40 mb de navegacion', 40.0000),
+(7, 'Plan 3', 'muenod', 30.0000);
 
 -- --------------------------------------------------------
 
@@ -285,13 +272,6 @@ CREATE TABLE `tabla_depart_accion_data` (
   `usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `tabla_depart_accion_data`
---
-
-INSERT INTO `tabla_depart_accion_data` (`id`, `accion`, `departamento`, `opcion`, `usuario`) VALUES
-(1, 'editar', 5, 'btn_reg_plan', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -319,9 +299,6 @@ INSERT INTO `tabla_depart_boton_data` (`id`, `boton`, `usuario`, `departamento`)
 (7, '#btn_reg', 2, 2),
 (8, '#btn_ver', 2, 2),
 (9, '#btn_report', 2, 2),
-(10, '#btn_reg', 2, 1),
-(11, '#btn_ver', 2, 1),
-(12, '#btn_report', 2, 1),
 (13, '#btn_reg', 2, 2),
 (14, '#btn_ver', 2, 2),
 (15, '#btn_report', 2, 2),
@@ -329,18 +306,20 @@ INSERT INTO `tabla_depart_boton_data` (`id`, `boton`, `usuario`, `departamento`)
 (17, '#btn_ver', 2, 3),
 (18, '#btn_report', 2, 3),
 (19, '#btn_auto', 2, 3),
-(20, '', 2, 4),
-(21, '', 2, 4),
-(22, '', 2, 4),
 (23, '#btn_report', 2, 2),
 (24, '#btn_ver', 2, 2),
 (25, '#btn_report', 2, 4),
 (26, '#btn_ver', 2, 4),
 (27, '#btn_report', 2, 2),
 (28, '#btn_ver', 2, 2),
-(29, '#btn_reg_tasa', 2, 5),
-(30, '#btn_reg_plan', 2, 5),
-(31, '#btn_reg_nodo', 2, 5);
+(41, '#btn_ver', 2, 2),
+(42, '#btn_ver', 2, 2),
+(43, '#btn_reg', 2, 1),
+(44, '#btn_ver', 2, 1),
+(45, '#btn_report', 2, 1),
+(46, '#btn_reg_nodo', 2, 5),
+(48, '#btn_reg_tasa', 2, 5),
+(49, '#btn_reg_plan', 2, 5);
 
 -- --------------------------------------------------------
 
@@ -360,11 +339,11 @@ CREATE TABLE `tabla_depart_usuario_data` (
 
 INSERT INTO `tabla_depart_usuario_data` (`id`, `departamento`, `usuario`) VALUES
 (48, 6, 2),
-(52, 4, 2),
 (56, 2, 2),
 (57, 3, 2),
-(58, 1, 2),
-(59, 5, 2);
+(63, 4, 2),
+(69, 1, 2),
+(72, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -418,7 +397,6 @@ CREATE TABLE `tabla_modulo_usuario_data` (
 --
 
 INSERT INTO `tabla_modulo_usuario_data` (`id`, `modulo`, `usuario`) VALUES
-(22, 1, 0),
 (77, 2, 2),
 (78, 3, 2),
 (80, 1, 2);
@@ -450,13 +428,10 @@ CREATE TABLE `tabla_pago_data` (
 --
 
 INSERT INTO `tabla_pago_data` (`id`, `fecha_registro`, `nota`, `cliente`, `contrato`, `forma_pago`, `detalle_pago`, `monto_dolar`, `fecha_pago`, `tasa`, `referencia`, `monto_cambio`, `monto_pago`) VALUES
-('6702d01456565', '2024-10-06 13:10:48', 'NE-001/2024', '670047f916710', '670049d82491b', 1, 1, 20.0000, '2024-10-01', 37.0000, '55645', 20.0000, 740.0000),
-('6702d03bae22b', '2024-10-06 14:10:27', 'NE-002/2024', '670047f916710', '670049d82491b', 2, 4, 20.0000, '2024-10-02', 37.0000, '', 10.0000, 10.0000),
-('6702d0795228d', '2024-10-06 14:10:29', 'NE-003/2024', '670047f916710', '670049d82491b', 1, 2, 20.0000, '2024-10-03', 37.0000, '5488', 10.8108, 400.0000),
-('6702d75065346', '2024-10-06 14:10:40', 'NE-004/2024', '670047f916710', '670049d82491b', 2, 4, 10.0000, '2024-10-03', 35.0000, '', 5.0000, 0.0000),
-('6702da9f570da', '2024-10-06 14:10:47', 'NE-005/2024', '670047f916710', '670049d82491b', 2, 3, 9.1900, '2024-10-03', 37.0000, '', 9.1900, 340.0300),
-('67093dc7a4892', '2024-10-11 11:10:27', 'NE-006/2024', '670047f916710', '670049d82491b', 2, 4, 10.0000, '2024-10-11', 35.0000, '', 5.0000, 0.0000),
-('67093e0c19a27', '2024-10-11 11:10:36', 'NE-007/2024', '6700474ad0b14', '67004a188a520', 1, 1, 30.0000, '2024-10-10', 36.0000, '48454', 30.0000, 1080.0000);
+('678ba2c4672c2', '2025-01-18 08:01:00', 'NE-003/2025', '678a73664e3a6', '678ba1bc74442', 2, 4, 30.0000, '2025-01-09', 50.0000, '', 20.0000, 0.0000),
+('678ba8255e00b', '2025-01-18 09:01:57', 'NE-004/2025', '678a73664e3a6', '678b4869c639d', 1, 1, 75.0000, '2025-01-10', 54.0000, '1482', 75.9259, 4100.0000),
+('67d967454d9ba', '2025-03-18 00:00:00', 'NE-001/2025', '678a73525cd80', '678b484b69895', 2, 4, 20.0000, '2025-03-18', 0.0000, 'Capital a Favor Abon', 10.0000, 0.0000),
+('67d9674552fc4', '2025-03-18 00:00:00', 'NE-002/2025', '678a73664e3a6', '678b4869c639d', 2, 4, 40.0000, '2025-03-18', 0.0000, 'Capital a Favor Abon', 5.0000, 0.0000);
 
 -- --------------------------------------------------------
 
@@ -688,12 +663,6 @@ ALTER TABLE `tabla_cliente_estatus`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_cobranza_data`
---
-ALTER TABLE `tabla_cobranza_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
 -- AUTO_INCREMENT de la tabla `tabla_cobranza_estatus`
 --
 ALTER TABLE `tabla_cobranza_estatus`
@@ -703,7 +672,7 @@ ALTER TABLE `tabla_cobranza_estatus`
 -- AUTO_INCREMENT de la tabla `tabla_cobranza_pago`
 --
 ALTER TABLE `tabla_cobranza_pago`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_contrato_estatus`
@@ -721,7 +690,7 @@ ALTER TABLE `tabla_contrato_nodo`
 -- AUTO_INCREMENT de la tabla `tabla_contrato_plan`
 --
 ALTER TABLE `tabla_contrato_plan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_departamento_data`
@@ -739,13 +708,13 @@ ALTER TABLE `tabla_depart_accion_data`
 -- AUTO_INCREMENT de la tabla `tabla_depart_boton_data`
 --
 ALTER TABLE `tabla_depart_boton_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_depart_usuario_data`
 --
 ALTER TABLE `tabla_depart_usuario_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_empresa_data`
