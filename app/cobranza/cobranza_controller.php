@@ -10,20 +10,23 @@ $cobranza = new Cobranza();
 $pago = new Pago();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '';
+$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '678e3b8d2f075';
 $id_cliente = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : '';
 $cobro_tipo = (isset($_POST['cobro_tipo'])) ? $_POST['cobro_tipo'] : '1';
-$fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
+$fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '2025-01-01';
 $nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
 $contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
 $concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : '';
-$monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
+$monto = (isset($_POST['monto'])) ? $_POST['monto'] : '0';
 $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
 
 $hoy = date('Y-m-d');
 $total = 0;
-
-$periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
+/*PHP 7 */
+//$periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
+/*PHP 8 */
+$dateTimeObj = new DateTime($hoy, new DateTimeZone('America/Caracas'));
+$periodo_actual = IntlDateFormatter::formatObject($dateTimeObj, 'MMMM-y', 'es');
 
 switch ($_GET["op"]) {
   case 'generacion_automatica':
@@ -31,7 +34,7 @@ switch ($_GET["op"]) {
     $contador = 0;
     $estatus = 1;
     $detalle = ucwords("Cobro de Servicio Del Mes De " . $periodo_actual);
-    $mes = date('F', strtotime($hoy));
+    //$mes = date('F', strtotime($hoy));
     $data = $cobranza->cargarDatosContratos();
     $n_contrato = count($data);
     if ($n_contrato > 0) {
@@ -109,6 +112,7 @@ switch ($_GET["op"]) {
     $dato = array();
     $id = uniqid();
     $saldo = $cobranza->cargarDatosContrato($id_contrato);
+    
     if ($cobro_tipo == 2) {
       $plan = 5;
     } else {
@@ -125,7 +129,7 @@ switch ($_GET["op"]) {
       $fp_detalle = 4;
       $p_pago = 0.00;
       $tasa = 0.00;
-      $referencia = 'Capital a Favor Abono';
+      $referencia = 'Abono '.$nuevo;
       $datap = $pago->guardarDatosPago($nota_id, $hoy, $id_contrato, $id_cliente, $forma_pago, $fp_detalle, $saldo, $hoy, $tasa, $referencia, $saldo, $p_pago, $nota);
       if ($datap) {
         $estatus = 3;
