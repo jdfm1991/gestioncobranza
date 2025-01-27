@@ -1,7 +1,4 @@
 <?php
-
-use Mpdf\Tag\P;
-
 date_default_timezone_set('America/Caracas');
 require_once("../../config/const.php");
 require_once("../../assets/pdf/autoload.php");
@@ -37,10 +34,8 @@ foreach ($data as $data) {
 
 $logo = '../../assets/img/logo.png';
 $name = 'tecnologiacharity2020';
-$stylesheet = file_get_contents('../../assets/css/style.css');
+$stylesheet = file_get_contents(URL_ASSETS.'/css/style.css');
 $body = "";
-
-
 
 $body .= '
 <div class="box-left">
@@ -136,3 +131,4 @@ $mpdf->WriteHTML($body, \Mpdf\HTMLParserMode::HTML_BODY);
 
 // Output a PDF file directly to the browser
 $mpdf->Output($nota . '.pdf', \Mpdf\Output\Destination::INLINE);
+

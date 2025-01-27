@@ -510,7 +510,7 @@ class Herramientas extends Conectar
     //QUERY
     $sql = "UPDATE tabla_contrato_data AS A
             INNER JOIN ( SELECT id FROM tabla_contrato_data WHERE DATEDIFF(now(),fecha_apertura)>30) AS B
-            SET A.estatus=2 WHERE A.id=B.id";
+            SET A.estatus=2 WHERE A.id=B.id where A.estatus!=3";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
 
