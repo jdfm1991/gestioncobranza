@@ -69,7 +69,7 @@ require_once('../menu.php');
             <div class="row mb-3">
               <div class="col-3">
                 <label for="fecha_cliente" class="form-label">Fecha de Registro</label>
-                <input type="date" class="form-control" id="fecha_cliente" required>
+                <input type="date" min="1997-01-01" class="form-control" id="fecha_cliente" required>
               </div>
               <div class="col-3 mt-3">
                 <div class="form-floating">

@@ -36,7 +36,7 @@ foreach ($data as $data) {
   $detalle = $data['detalle'];
   $detalle_pago = $data['detalle_pago'];
   $referencia = $data['referencia'];
-  $tasa = $data['tasa'];
+  $tasa = number_format($data['tasa'], 2);
   $monto_dolar = number_format($data['monto_dolar'], 2);
   $monto_cambio = number_format($data['monto_cambio'], 2);
   $monto_pago = number_format($data['monto_pago'], 2);
@@ -77,6 +77,7 @@ $body .= '
 <div class="box-right">
 <h2 class="text-box-right">Metodo de Pago: <b>'.$forma.'</b></h2>
 </div>
+<br>
 <br>
 <br>
 ';

@@ -45,7 +45,7 @@ $body .= '
 </div>
 
 <div class="box-right">
-  <h2 class="text-box-right">Orden de Cobro</h2>
+  <h4 class="text-box-right">Orden de Cobro</h4>
   <p class="text-box-right"><b>Numero: </b>' . $orden . '</p>
   <p class="text-box-right"><b>Fecha: </b>' . $fecha_creacion . '</p>
   <br>
@@ -61,14 +61,13 @@ if ($condicion != 1) {
 $body .= '</div>
 <br>
 <div >
-  <h2 class="text-box-left">Emitida A</h2>
-  <h3 class="text-box-left"><b>Clente: </b>' . $nombre_apel . '</h3>
+  <h3 class="text-box-left">Emitida A</h3>
+  <h4 class="text-box-left"><b>Clente: </b>' . $nombre_apel . '</h4>
   <p class="text-box-left"><b>Numero de Cedula o R.I.F.: </b>' . $documento . '</p>
   <p class="text-box-left"><b>Numero de Contacto : </b>' . $telefono . '</p>
   <p class="text-box-left"><b>Correo Electronico: </b>' . $correo . '</p>
   <p class="text-box-left"><b>Direccion: </b>' . $direccion . '</p>
 </div>
-<br>
 ';
 
 $body .= '

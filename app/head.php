@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
   <title>.::Control de Cobranza::.</title>
-  <link rel="stylesheet" href="<?php echo  URL_ASSETS; ?>css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="<?php echo  URL_ASSETS; ?>css/body.css" rel="stylesheet">
   <!--File Css bootstrap-->
   <link href="<?php echo  URL_ASSETS; ?>css/bootstrap/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo  URL_ASSETS; ?>css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
