@@ -459,7 +459,7 @@ class Herramientas extends Conectar
     //QUERY
     $sql = "SELECT SUM(B.costo) AS costo, COUNT(*) AS cant FROM tabla_contrato_data AS A 
             INNER JOIN tabla_contrato_plan AS B ON B.id=A.plan 
-            WHERE nodo=?";
+            WHERE nodo=? AND A.estatus!=3";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $id);

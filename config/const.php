@@ -1,6 +1,6 @@
 <?php
 # ROUTE
-const SERVER = "localhost:8080";
+const SERVER = "localhost";
 
 # ROUTE DATABASE
 const SERVER_DB = "localhost";

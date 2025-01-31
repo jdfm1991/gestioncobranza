@@ -23,11 +23,11 @@ $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
 $hoy = date('Y-m-d');
 $total = 0;
 /*PHP 7 */
-//$periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
-/*PHP 8 */
+$periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
+/*PHP 8 
 $dateTimeObj = new DateTime($hoy, new DateTimeZone('America/Caracas'));
 $periodo_actual = IntlDateFormatter::formatObject($dateTimeObj, 'MMMM-y', 'es');
-
+*/
 switch ($_GET["op"]) {
   case 'generacion_automatica':
     $dato = array();
