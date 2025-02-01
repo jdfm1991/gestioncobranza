@@ -7,7 +7,7 @@ require_once("pago_model.php");
 
 $pago = new Pago();
 
-$id = (isset($_POST['id'])) ? $_POST['id'] : '';
+$id = (isset($_POST['id'])) ? $_POST['id'] : '679bc66a64c14';
 $contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
 $cliente = (isset($_POST['cliente'])) ? $_POST['cliente'] : '';
 $forma_pago = (isset($_POST['forma_pago'])) ? $_POST['forma_pago'] : '';
@@ -60,8 +60,9 @@ switch ($_GET["op"]) {
         $monto = $pago->cargarMontoOrden($cobranza);
         $estatus = ($abono == 'false') ? 2 : 3;
         if ($saldo > $monto) {
+          $estatus = 2;
           $saldo = $saldo - $monto;
-          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id, $monto);       
+          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id, $monto, $saldo);       
           $cobro = $pago->actualizarCobranza($cobranza, $estatus, $monto);
           $contra = $pago->actualizarContrato($contrato, $saldo);
         }else {
@@ -100,7 +101,7 @@ switch ($_GET["op"]) {
       $sub_array['detalle'] = $data['detalle'];
       $sub_array['monto_dolar'] = number_format($data['monto_dolar'], 2);
       $sub_array['fecha_pago'] = $data['fecha_pago'];
-      $sub_array['tasa'] = $data['tasa'];
+      $sub_array['tasa'] = number_format($data['tasa'], 2);
       $sub_array['referencia'] = $data['referencia'];
       $sub_array['monto_cambio'] = number_format($data['monto_cambio'], 2);
       $sub_array['monto_pago'] = number_format($data['monto_pago'], 2);
@@ -111,14 +112,34 @@ switch ($_GET["op"]) {
 
   case 'anular':
     $dato = array();
-    $estatus = 4;
-    $data = $cobranza->anularCobranza($id, $estatus);
-    if ($data) {
-      $dato['status']  = true;
-      $dato['message'] = 'Se Elimino La Infomacion de Manera Satisfactoria';
-    } else {
-      $dato['status']  = false;
-      $dato['message'] = 'Error al Elimino La Infomacion';
+    $est_nota = 2;
+    $est_cobro = 1;
+    $saldo = 0;
+    $data = $pago->buscarCobros($id);
+    foreach ($data as $data) {
+      $cobro = $pago->actualizarCobranza($data['orden'], $est_cobro, -$data['pago']);
+      if ($cobro) {
+        $id_contra = $pago->buscarContrato($data['orden']);
+        $contra = $pago->actualizarContrato($id_contra, $saldo);
+        if ($contra) {
+          $anularpago = $pago->anularPago($id, $est_nota);
+          if ($anularpago) {
+            $dato['status']  = true;
+            $dato['message'] = 'Se Elimino La Infomacion de Manera Satisfactoria';
+          } else {
+            $dato['status']  = false;
+            $dato['message'] = 'Error al Elimino La Infomacion';
+          }
+        } else {
+          $dato['status']  = false;
+          $dato['message'] = 'Error al Actualizar Saldo de Contrato';
+        }
+        
+      }else {
+        $dato['status']  = false;
+        $dato['message'] = 'Error al Actualizar Orden de Cobro';
+      }
+      
     }
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;

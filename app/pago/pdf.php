@@ -42,6 +42,8 @@ foreach ($data as $data) {
   $monto_pago = number_format($data['monto_pago'], 2);
 }
 
+$saldo = 0;
+
 $logo = '../../assets/img/logo.png';
 $name = 'tecnologiacharity2020';
 $stylesheet = file_get_contents('../../assets/css/style.css');
@@ -96,6 +98,7 @@ $body .= '
     </thead>
     <tbody>';
 foreach ($item as $item) {
+  $saldo = $item['favor'];
   $body .= '   
         <tr>
           <td>' . $item['fecha_creacion'] . '</td>
@@ -105,17 +108,14 @@ foreach ($item as $item) {
           <td>' . number_format($item['pago'], 2) . '</td>
         </tr>';
 }
-$saldos = $cobranza->cargarSaldoContrato($idcontrato);
 
-foreach ($saldos as $saldos) {
-    $body .= '   
-          <tr>
-            <td colspan="2">Saldo a Favor Sobre Contraro</td>
-            <td colspan="2">'.$saldos['contrato'].'</td>
-            <td>' . number_format($saldos['saldo'], 2) . ' </td>
-          </tr>';
+  $body .= '   
+        <tr>
+          <td colspan="4">Saldo a Favor Sobre Contrato '.$contrato.'</td>
+          <td>' . number_format($saldo, 2) . ' </td>
+        </tr>';
   
-}
+
 $body .= '
         <tr>
           <td colspan="5"></td>

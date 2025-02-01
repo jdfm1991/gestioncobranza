@@ -53,6 +53,7 @@ switch ($_GET["op"]) {
                         <tr style="border: 1px solid black;
                   border-collapse: collapse;">
                           <th width="15%">Fecha de Cobro</th>
+                          <th width="30%">Nombre Cliente</th>
                           <th width="15%">Orden de Cobro</th>
                           <th width="10%">Monto $</th>
                           <th width="10%">total $</th>
@@ -65,6 +66,7 @@ switch ($_GET["op"]) {
           $body .= '   
                   <tr>
                     <td>' . $ordenes['fecha_creacion'] . '</td>
+                    <td>' . $ordenes['nombre_apel'] . '</td>
                     <td>' . $ordenes['orden'] . '</td>
                     <td>' . number_format($ordenes['monto'], 2)  . '</td>
                     <td>' . number_format($total, 2) . '</td>
@@ -99,6 +101,7 @@ switch ($_GET["op"]) {
                     <tr style="border: 1px solid black;
               border-collapse: collapse;">
                       <th width="15%">Fecha de Cobro</th>
+                      <th width="30%">Nombre Cliente</th>
                       <th width="15%">Orden de Cobro</th>
                       <th width="10%">Monto $</th>
                       <th width="10%">total $</th>
@@ -111,6 +114,7 @@ switch ($_GET["op"]) {
           $body .= '   
               <tr>
                 <td>' . $ordenes['fecha_creacion'] . '</td>
+                <td>' . $ordenes['nombre_apel'] . '</td>
                 <td>' . $ordenes['orden'] . '</td>
                 <td>' . number_format($ordenes['monto'], 2)  . '</td>
                 <td>' . number_format($total, 2) . '</td>
@@ -149,7 +153,7 @@ switch ($_GET["op"]) {
         $infocontrato = $contrato->cargarDatosContrato($idcliente);
         foreach ($infocontrato as $infocontrato) {
           $idcontrato = $infocontrato['id'];
-          $body .= '<p class="text-contrato">Fecha de Apertura:<b> ' . $infocontrato['fecha_apertura'] . '</b> N° de contrato:<b> ' . $infocontrato['contrato'] . '</b> Plan:<b> ' . $infocontrato['plan2'] . '</b></p>';
+          $body .= '<h3>Fecha de Apertura:<b> ' . $infocontrato['fecha_apertura'] . '</b> N° de contrato:<b> ' . $infocontrato['contrato'] . '</b> Plan:<b> ' . $infocontrato['plan2'] . '</b></h3>';
           $body .= '
                     <table style="text-align:center;" width="100%">
                         <thead>

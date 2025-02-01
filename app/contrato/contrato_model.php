@@ -107,7 +107,7 @@ class Contrato extends Conectar
               FROM tabla_contrato_data AS A 
               INNER JOIN tabla_cliente_data AS B ON B.id=A.cliente
               INNER JOIN tabla_contrato_plan AS C ON C.id=A.plan 
-              WHERE A.id=? OR A.cliente=? OR A.nodo=?";
+              WHERE A.id=? OR A.cliente=? OR A.nodo=? AND A.estatus!=3";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $id);

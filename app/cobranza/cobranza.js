@@ -428,8 +428,6 @@ function cargarCliente(id) {
     dataType: "json",
     data: { id: id },
     success: function (data) {
-      console.log(data);
-      
       $.each(data, function (idx, opt) {
         $("#id_cliente").val(opt.id);
         $("#cxc_cliente_nom").val(opt.nombre_apel);
@@ -443,10 +441,6 @@ function cargarCliente(id) {
 //**********de un contrato selecionado************/
 function cargarContratoCliente(id) {
   cobro_tipo = $("#cobro_tipo").val();
-
-
-      
-
   $("#modalcontrato").modal("hide");
   $.ajax({
     url: "../contrato/contrato_controller.php?op=contrato",

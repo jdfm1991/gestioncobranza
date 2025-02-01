@@ -7,7 +7,7 @@ require_once('../menu.php');
 ?>
 <input type="hidden" id="id_cliente">
 <input type="hidden" id="id_contrato">
-<div class="container-lg mt-5">
+<div class="container-fluid mt-5">
   <div id="permitido" class="row justify-content-center g-2 mt-5">
     <h1 class="text-center">Modulo de Nota de Entrega</h1>
     <hr>

@@ -45,9 +45,10 @@ if (!$id) {
                     <thead>
                         <tr style="border: 1px solid black;
                   border-collapse: collapse;">
-                          <th width="15%">Fecha de Apertura</th>
-                          <th width="15%">Nombre de Clinete de Cobro</th>
-                          <th width="10%">Contrato </th>
+                          <th width="10%">Fecha de Apertura</th>
+                          <th width="30%">Nombre de Cliente de Cobro</th>
+                          <th width="15%">Contrato </th>
+                          <th width="15%">Plan </th>
                         </tr>
                     </thead>
                     <tbody>';
@@ -59,6 +60,7 @@ if (!$id) {
                     <td>' . $ordenes['fecha_apertura'] . '</td>
                     <td>' . $ordenes['nombre_apel'] . '</td>
                     <td>' . $ordenes['contrato'] . '</td>
+                    <td>' . $ordenes['plan2'] . '</td>
                   </tr>';
     }
     $body .= '
@@ -87,11 +89,11 @@ if (!$id) {
     $body .= '
             <table style="text-align:center;" width="100%">
                 <thead>
-                    <tr style="border: 1px solid black;
-              border-collapse: collapse;">
-                      <th width="15%">Fecha de Apertura</th>
-                      <th width="15%">Nombre de Clinete de Cobro</th>
-                      <th width="10%">Contrato </th>
+                    <tr>
+                      <th width="10%">Fecha de Apertura</th>
+                      <th width="30%">Nombre de Cliente de Cobro</th>
+                      <th width="15%">Contrato </th>
+                      <th width="15%">Plan </th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -103,6 +105,7 @@ if (!$id) {
                 <td>' . $ordenes['fecha_apertura'] . '</td>
                 <td>' . $ordenes['nombre_apel'] . '</td>
                 <td>' . $ordenes['contrato'] . '</td>
+                <td>' . $ordenes['plan2'] . '</td>
               </tr>';
     }
     $body .= '

@@ -242,7 +242,7 @@ function cargarListaPlanes() {
             "<div class='text-center'><div class='btn-group'>" +
             "<button name='editar' onclick='editarData(`" +
             data +
-            "`)' class='btn btn-outline-info d-none' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
+            "`)' class='btn btn-outline-info' title='Actializar'><i class='bi bi-pencil-square'></i></button>" +
             "</div></div>"
           );
         },

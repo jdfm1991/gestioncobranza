@@ -79,7 +79,7 @@ class Pago extends Conectar
     return $sql->execute();
   }
 
-  public function guardarDatosCobroPago($orden, $nota, $pago)
+  public function guardarDatosCobroPago($orden, $nota, $pago, $saldo)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
     //CUANDO ES APPWEB ES CONEXION.
@@ -87,12 +87,13 @@ class Pago extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "INSERT INTO tabla_cobranza_pago( orden, nota, pago)  VALUES (?,?,?)";
+    $sql = "INSERT INTO tabla_cobranza_pago( orden, nota, pago, favor)  VALUES (?,?,?,?)";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->bindValue(1, $orden);
     $sql->bindValue(2, $nota);
     $sql->bindValue(3, $pago);
+    $sql->bindValue(4, $saldo);
     return $sql->execute();
   }
 
@@ -109,6 +110,21 @@ class Pago extends Conectar
     $sql->bindValue(1, $estatus);
     $sql->bindValue(2, $p_pago);
     $sql->bindValue(3, $cobranza);
+    return $sql->execute();
+  }
+
+  public function anularPago($id, $estatus)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    ///QUERY
+    $sql = "UPDATE tabla_pago_data SET estatus=? WHERE id=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $estatus);
+    $sql->bindValue(2, $id);
     return $sql->execute();
   }
 
@@ -140,7 +156,8 @@ class Pago extends Conectar
             INNER JOIN tabla_contrato_data AS C ON C.id=A.contrato
             INNER JOIN tabla_pago_forma AS D ON D.id=A.forma_pago
             INNER JOIN tabla_pago_forma_detalle AS E ON E.id=A.detalle_pago
-            ORDER BY fecha_registro DESC";
+            WHERE A.estatus=1
+            ORDER BY nota DESC";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->execute();
@@ -196,7 +213,7 @@ class Pago extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT B.fecha_creacion, B.orden, B.detalle,C.fecha_registro ,A.pago, C.nota
+    $sql = "SELECT B.fecha_creacion, B.orden, B.detalle,C.fecha_registro ,A.pago, C.nota, A.favor
               FROM tabla_cobranza_pago AS A 
               INNER JOIN tabla_cobranza_data AS B ON B.id=A.orden
               INNER JOIN tabla_pago_data AS C ON C.id=A.nota
@@ -207,5 +224,36 @@ class Pago extends Conectar
     $sql->execute();
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function buscarCobros($id)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT * FROM tabla_cobranza_pago WHERE nota=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $id);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function buscarContrato($id)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT contrato FROM tabla_cobranza_data WHERE id=?";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $id);
+    $sql->execute();
+    return ($sql->fetch(PDO::FETCH_ASSOC)['contrato']);
+  }
   
 }
+

@@ -122,7 +122,7 @@ class Cobranza extends Conectar
             INNER JOIN tabla_cliente_data AS C ON A.cliente=C.id
             INNER JOIN tabla_contrato_nodo AS D ON A.nodo=D.id
             INNER JOIN tabla_cobranza_estatus AS E ON A.estatus=E.id
-            WHERE A.estatus!=4 ORDER BY A.id DESC";
+            WHERE A.estatus!=4 ORDER BY A.orden DESC";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
     $sql->execute();
@@ -136,7 +136,7 @@ class Cobranza extends Conectar
     $conectar = parent::conexion();
     parent::set_names();
     //QUERY
-    $sql = "SELECT A.id, fecha_creacion, A.orden, B.contrato, D.nodo, C.nombre_apel, C.documento, C.correo, C.telefono, B.direccion, A.detalle AS detalle, (A.monto-A.abono) AS monto, E.estatus, A.estatus AS condicion
+    $sql = "SELECT A.id, fecha_creacion, A.orden, B.contrato, D.nodo, C.nombre_apel, C.documento, C.correo, C.telefono, B.direccion, A.detalle AS detalle, (A.monto) AS monto, E.estatus, A.estatus AS condicion
             FROM tabla_cobranza_data AS A 
             INNER JOIN tabla_contrato_data AS B ON B.id=A.contrato
             INNER JOIN tabla_cliente_data AS C ON C.id=A.cliente

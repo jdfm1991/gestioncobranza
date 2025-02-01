@@ -107,7 +107,7 @@ $(document).ready(function () {
           monto[i] = parseFloat($("#monto" + plan[i]).text());
           total += parseFloat(monto[i]);
         }
-        $("#pago_cobro").val(total);
+        $("#pago_cobro").val(total.toFixed(2));
       } else {
         Swal.fire({
           icon: "info",
@@ -435,6 +435,9 @@ function dataPagoCarga() {
         render: function (data, type, row) {
           return (
             "<div class='text-center'><div class='btn-group'>" +
+            "<button onclick='anularNota(`" +
+            data +
+            "`)' class='btn btn-outline-secondary btn-sm' title='Eliminar'><i class='bi bi-x-octagon'></i></button>" +
             "<button onclick='verPDFNota(`" +
             data +
             "`)' class='btn btn-outline-success btn-sm'><i class='bi bi-printer'></i></button>" +
@@ -505,4 +508,44 @@ function limpiarFormulario() {
 //***************pagos registrados****************/
 function verPDFNota(nota) {
   window.open("pdf.php?id=" + nota, "_blank");
+}
+
+function anularNota(nota) {
+
+  Swal.fire({
+    title: "¿Está seguro de borrar esta informacion?",
+    showCancelButton: true,
+    confirmButtonText: "Si",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "pago_controller.php?op=anular",
+        type: "POST",
+        dataType: "json",
+        data: { id: nota },
+        success: function (data) {
+          if (data.status == true) {
+            Swal.fire({
+              icon: "success",
+              title: data.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            setTimeout(() => {
+              $("#tablapagos").DataTable().ajax.reload();
+            }, 1000);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: data.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        },
+      });
+    }
+  });
+
+   
 }

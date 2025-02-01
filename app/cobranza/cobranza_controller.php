@@ -10,13 +10,13 @@ $cobranza = new Cobranza();
 $pago = new Pago();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '678e3b8d2f075';
-$id_cliente = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : '';
+$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '679111d8a6d31';
+$id_cliente = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : '679110cf8550e';
 $cobro_tipo = (isset($_POST['cobro_tipo'])) ? $_POST['cobro_tipo'] : '1';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '2025-01-01';
-$nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
+$nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '1';
 $contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
-$concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : '';
+$concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : 'prueba';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '0';
 $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
 
@@ -132,11 +132,23 @@ switch ($_GET["op"]) {
       $referencia = 'Abono '.$nuevo;
       $datap = $pago->guardarDatosPago($nota_id, $hoy, $id_contrato, $id_cliente, $forma_pago, $fp_detalle, $saldo, $hoy, $tasa, $referencia, $saldo, $p_pago, $nota);
       if ($datap) {
-        $estatus = 3;
-        $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$saldo);
-        $cobro = $pago->actualizarCobranza($id, $estatus, $saldo);
-        $saldo = 0;
-        $contra = $pago->actualizarContrato($id_contrato, $saldo);
+        if ($saldo > $monto) {
+          $saldo = $saldo - $monto;
+          $estatus = 2;
+          $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$monto,$saldo);
+          $cobro = $pago->actualizarCobranza($id, $estatus, $monto);
+          $contra = $pago->actualizarContrato($id_contrato, $saldo);
+        } else {
+          $monto = $saldo;
+          $estatus = 3;
+          $saldo = 0;
+          $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$monto,$saldo);
+          $cobro = $pago->actualizarCobranza($id, $estatus, $monto);
+          $contra = $pago->actualizarContrato($id_contrato, $saldo);
+        }
+        
+        
+        
       }
     } 
     if ($data) {
