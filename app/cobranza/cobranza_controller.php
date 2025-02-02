@@ -44,27 +44,42 @@ switch ($_GET["op"]) {
         $nodo = $data['nodo'];
         $plan = $data['plan'];
         $monto = $data['costo'];
+        $saldo = $data['saldo'];
+        //Verificamos si ya se cobro la mensualidad del periodo
         $verificar = $cobranza->buscarDatosCobranza($contrato);
-        if (!$verificar) {
+        if (empty($verificar)) {
           $id = uniqid();
           $nuevo = $cobranza->cargarSiguienteOrden();
           $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus, $id);
-          if ($data['saldo'] > 0) {
+          if ($saldo > 0) {
             $nota_id = uniqid();
             $nota = $pago->cargarSiguienteNota();
             $forma_pago = 2;
             $fp_detalle = 4;
             $p_pago = 0.00;
             $tasa = 0.00;
-            $referencia = 'Capital a Favor Abono';
-            $datap = $pago->guardarDatosPago($nota_id, $hoy, $contrato, $cliente, $forma_pago, $fp_detalle, $data['costo'], $hoy, $tasa, $referencia, $data['saldo'], $p_pago, $nota);
+            $referencia = 'Saldo a Favor';
+            $datap = $pago->guardarDatosPago($nota_id, $hoy, $contrato, $cliente, $forma_pago, $fp_detalle, $monto, $hoy, $tasa, $referencia, $saldo, $p_pago, $nota);
             if ($datap) {
-              $estatus = 3;
-              $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$data['saldo']);
-              $cobro = $pago->actualizarCobranza($id, $estatus, $data['saldo']);
-              $saldo = 0;
-              $contra = $pago->actualizarContrato($contrato, $saldo);
+              if ($saldo > $monto) {
+                $saldo = $saldo - $monto;
+                $estatus = 2;
+                $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$monto,$saldo);
+                $cobro = $pago->actualizarCobranza($id, $estatus, $monto);
+                $contra = $pago->actualizarContrato($contrato, $saldo);
+              } else {
+                $monto = $saldo;
+                $estatus = 3;
+                $saldo = 0;
+                $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$monto,$saldo);
+                $cobro = $pago->actualizarCobranza($id, $estatus, $monto);
+                $contra = $pago->actualizarContrato($contrato, $saldo);
+              }
+            }else {
+              $dato['status']  = false;
+              $dato['message'] = 'Error al Registrar Abonos Segun Saldo A favor';
             }
+            
           }
           if ($regcobranza) {
             $contador++;
@@ -83,8 +98,6 @@ switch ($_GET["op"]) {
       $dato['status']  = true;
       $dato['message'] = 'No Existe Contratos De Cobro Del Periodo ' . $periodo_actual;
     }
-
-
     echo json_encode($dato, JSON_UNESCAPED_UNICODE);
     break;
 
@@ -146,9 +159,6 @@ switch ($_GET["op"]) {
           $cobro = $pago->actualizarCobranza($id, $estatus, $monto);
           $contra = $pago->actualizarContrato($id_contrato, $saldo);
         }
-        
-        
-        
       }
     } 
     if ($data) {

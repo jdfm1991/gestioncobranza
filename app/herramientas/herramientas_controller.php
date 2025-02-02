@@ -12,8 +12,8 @@ $opcion = (isset($_POST['opcion'])) ? $_POST['opcion'] : '';
 $modulo = (isset($_POST['modulo'])) ? $_POST['modulo'] : '1';
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '';
-$estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
+$nodo = (isset($_POST['nodo'])) ? $_POST['nodo'] : '3';
+$estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '1';
 $plan = (isset($_POST['plan'])) ? $_POST['plan'] : '';
 $tasa = (isset($_POST['tasa'])) ? $_POST['tasa'] : '';
 $forma = (isset($_POST['forma'])) ? $_POST['forma'] : '';
@@ -382,11 +382,11 @@ switch ($_GET["op"]) {
     $dato = array();
 
     if ($estatus == 1) {
-      $item2 = $herramientas->contadorCobrosEstatus($nodo, $estatus);
+      $item2 = $herramientas->contadorCobrosPendientes($nodo);
       foreach ($item2 as $item2) {
         $sub_array = array();
         $sub_array['estatus'] = $item2['estatus'];
-        $sub_array['monto'] = number_format(($item2['monto'] - $item2['abono']), 2);
+        $sub_array['monto'] = number_format(($item2['monto']), 2);
         $sub_array['numero'] = $item2['numero'];
         $dato[] = $sub_array;
       }

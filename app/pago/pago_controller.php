@@ -67,9 +67,9 @@ switch ($_GET["op"]) {
           $contra = $pago->actualizarContrato($contrato, $saldo);
         }else {
           $estatus = 3;
-          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id,$saldo);       
-          $cobro = $pago->actualizarCobranza($cobranza, $estatus, $saldo);
           $saldo = 0;
+          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id, $bono, $saldo);       
+          $cobro = $pago->actualizarCobranza($cobranza, $estatus, $bono);
           $contra = $pago->actualizarContrato($contrato, $saldo);
         } 
       }

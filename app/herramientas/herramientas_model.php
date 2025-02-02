@@ -481,6 +481,24 @@ class Herramientas extends Conectar
     return $sql->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function contadorCobrosPendientes($nodo)
+  {
+    //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
+    //CUANDO ES APPWEB ES CONEXION.
+    $conectar = parent::conexion();
+    parent::set_names();
+    //QUERY
+    $sql = "SELECT SUM(monto-abono) AS monto, COUNT(*) AS numero, A.estatus 
+              FROM tabla_cobranza_data AS A 
+              INNER JOIN tabla_cobranza_estatus AS B ON B.id=A.estatus
+              WHERE A.nodo=? AND A.estatus IN (1,3)";
+    //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
+    $sql = $conectar->prepare($sql);
+    $sql->bindValue(1, $nodo);
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function contadorCobrosEstatus($nodo, $estatus)
   {
     //LLAMAMOS A LA CONEXION QUE CORRESPONDA CUANDO ES SAINT: CONEXION2
@@ -510,7 +528,7 @@ class Herramientas extends Conectar
     //QUERY
     $sql = "UPDATE tabla_contrato_data AS A
             INNER JOIN ( SELECT id FROM tabla_contrato_data WHERE DATEDIFF(now(),fecha_apertura)>30) AS B
-            SET A.estatus=2 WHERE A.id=B.id where A.estatus!=3";
+            SET A.estatus=2 WHERE A.id=B.id AND A.estatus!=3";
     //PREPARACION DE LA CONSULTA PARA EJECUTARLA.
     $sql = $conectar->prepare($sql);
 
