@@ -15,7 +15,7 @@ $pago = new Pago();
 $id = (isset($_GET['id'])) ? $_GET['id'] : '';
 
 $contador1 = 0;
-$total = 0;
+$saldo = 0;
 
 $logo = '../../assets/img/logo.png';
 $name = 'tecnologiacharity2020';
@@ -51,53 +51,60 @@ if (!$id) {
 
 
   $body .= '
-            <table style="text-align:center;" width="100%" border="1">
+            <table style="text-align:center;" width="100%">
                 <thead>
                     <tr class="titulo">
-                      <th class="text-titulo" width="10%">Fecha</th>
-                      <th class="text-titulo" width="20%">Concepto</th>
-                      <th class="text-titulo" width="20%">Documento</th>
-                      <th class="text-titulo" width="12%">Debe</th>
-                      <th class="text-titulo" width="12%">Haber</th>
-                      <th class="text-titulo" width="12%">Saldo $</th>
+                      <th class="data-1 text-titulo">Fecha</th>
+                      <th class="data-1 text-titulo">Contrato</th>
+                      <th class="data-1 text-titulo">Documento</th>
+                      <th class="data-1 text-titulo">Conceptos</th>
+                      <th class="data-1 text-titulo">Debe</th>
+                      <th class="data-1 text-titulo">Haber</th>
+                      <th class="data-1 text-titulo">Saldo</th>
                     </tr>
                 </thead>
                 <tbody>';
   $cobros = $cobranza->cargarCxcCliente2($id);
   foreach ($cobros as $cobros) {
+    $debe = $cobros['monto'];
+    $haber = $cobros['abono'];
+    $saldo = $saldo + $debe - $haber;
     $contador1++;
-    $total = $total + $cobros['monto'];
-    $cobroid = $cobros['id'];
-    $class = ($total == 0) ? 'pago' : 'deuda' ;
+    $class = ($saldo <= 0) ? 'pago' : 'deuda' ;
     $body .= '   
-             <tr class="'.$class.'">
-                <td class="text-table">' . $cobros['fecha_creacion'] . '</td>
-                <td class="text-table">' . $cobros['detalle'] . '</td>
-                <td class="text-table">' . $cobros['orden'] . '</td>
-                <td class="text-table">' . number_format($cobros['monto'], 2)  . ' </td>
-                <td class="text-table">' . number_format(0, 2) . ' </td>
-                <td class="text-table">' . number_format($total, 2) . ' </td>
+            <tr class="'.$class.'">
+                <td class="data-1 text-table">' . $cobros['fecha_creacion'] . '</td>
+                <td class="data-1 text-table">' . $cobros['contrato'] . '</td>
+                <td class="data-1 text-table">' . $cobros['orden'] . '</td>
+                <td class="data-1 text-table">' . $cobros['detalle'] . '</td>
+                <td class="data-1 text-table">' . number_format($debe, 2)  . ' </td>
+                <td class="data-1 text-table">' . number_format($haber, 2) . ' </td>
+                <td class="data-1 text-table">' . number_format($saldo, 2) . ' </td>
               </tr>';
-    $pagos = $pago->cargarDatosPagoDetalle($cobroid);
-    foreach ($pagos as $pagos) {
-      $contador1++;
-      $total = $total - $pagos['monto_cambio'];
-      $class = ($total == 0) ? 'pago' : 'deuda' ;
-      $body .= '   
-             <tr class="'.$class.'">
-                <td class="text-table">' . $pagos['fecha_registro'] . '</td>
-                <td class="text-table">' . $pagos['detalle'] . '</td>
-                <td class="text-table">' . $pagos['nota'] . '</td>
-                <td class="text-table">' . number_format(0, 2)  . ' </td>
-                <td class="text-table">' . number_format($pagos['monto_cambio'], 2) . ' </td>
-                <td class="text-table">' . number_format($total, 2) . ' </td>
-              </tr>';
-    }
   }
+
+  $saldos = $cobranza->cargarSaldoContrato($id);
+  foreach ($saldos as $saldos) {
+    $debe = 0;
+    $haber = $saldos['saldo'];
+    $saldo = $saldo + $debe - $haber;
+    $contador1++;
+    $class = ($saldo <= 0) ? 'pago' : 'deuda' ;
+    $body .= '   
+            <tr class="'.$class.'">
+                <td colspan="2" class="data-1 text-table">' . $saldos['contrato'] . '</td>
+                <td colspan="2" class="data-1 text-table">Saldo a Favor del Cliente</td>
+                <td class="data-1 text-table">' . number_format($debe, 2)  . ' </td>
+                <td class="data-1 text-table">' . number_format($haber, 2) . ' </td>
+                <td class="data-1 text-table">' . number_format($saldo, 2) . ' </td>
+              </tr>';
+  }
+    
   $body .= '
             </tbody>
         </table><br>';
-  $body .= '<p class="text-box-right border-text"><b>A Realizado ' . $contador1 . ' Operacion y Posee En Saldo De : ' . number_format($total, 2) . ' $</b></p><br>';
+  $body .= '<p class="text-box-right border-text"><b>A Realizado ' . $contador1 . ' Operacion y Posee En Saldo De : ' . number_format($saldo, 2) . ' $</b></p><br>';
+  
 }
 
 $mpdf = new \Mpdf\Mpdf([
@@ -131,4 +138,4 @@ $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
 $mpdf->WriteHTML($body, \Mpdf\HTMLParserMode::HTML_BODY);
 
 // Output a PDF file directly to the browser
-$mpdf->Output($nota . '.pdf', \Mpdf\Output\Destination::INLINE);
+$mpdf->Output('pdf.pdf', \Mpdf\Output\Destination::INLINE);

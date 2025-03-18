@@ -3,12 +3,14 @@ date_default_timezone_set("America/Caracas");
 setlocale(LC_TIME, 'es_VE.UTF-8', 'esp');
 require_once("../../config/abrir_sesion.php");
 require_once("../../config/conexion.php");
+require_once("../pago/pago_model.php");
 require_once("cobranza_model.php");
 
 $cobranza = new Cobranza();
+$pago = new Pago();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '670049d82491b';
+$id_contrato = (isset($_POST['id_contrato'])) ? $_POST['id_contrato'] : '';
 $id_cliente = (isset($_POST['id_cliente'])) ? $_POST['id_cliente'] : '';
 $cobro_tipo = (isset($_POST['cobro_tipo'])) ? $_POST['cobro_tipo'] : '1';
 $fecha = (isset($_POST['fecha'])) ? $_POST['fecha'] : '';
@@ -18,17 +20,9 @@ $concepto = (isset($_POST['concepto'])) ? $_POST['concepto'] : '';
 $monto = (isset($_POST['monto'])) ? $_POST['monto'] : '';
 $estatus = (isset($_POST['estatus'])) ? $_POST['estatus'] : '';
 
-/**php 8.1 */
-/**
-$dateTimeObj = new DateTime('now', new DateTimeZone('America/Caracas'));
-$dateFormatted = IntlDateFormatter::formatObject($dateTimeObj, 'MMMM', 'es');
- */
 $hoy = date('Y-m-d');
 $total = 0;
-/**php 8.1 */
-/** 
-$periodo_actual = ucwords($dateFormatted) . '-' . date('Y', strtotime($hoy));
-*/
+
 $periodo_actual = ucwords(strftime('%B')) . '-' . date('Y', strtotime($hoy));
 
 switch ($_GET["op"]) {
@@ -47,11 +41,32 @@ switch ($_GET["op"]) {
         $nodo = $data['nodo'];
         $plan = $data['plan'];
         $monto = $data['costo'];
+
         $verificar = $cobranza->buscarDatosCobranza($contrato);
         if (!$verificar) {
+          $id = uniqid();
           $nuevo = $cobranza->cargarSiguienteOrden();
 
-          $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus);
+          $regcobranza = $cobranza->guardarDatosCobranza($hoy, $nuevo, $contrato, $cliente, $nodo, $plan, $monto, $detalle, $estatus, $id);
+          if ($data['saldo'] > 0) {
+            $nota_id = uniqid();
+            $nota = $pago->cargarSiguienteNota();
+            $forma_pago = 2;
+            $fp_detalle = 4;
+            $p_pago = 0.00;
+            $tasa = 0.00;
+            $referencia = 'Capital a Favor Abono';
+
+            $datap = $pago->guardarDatosPago($nota_id, $hoy, $contrato, $cliente, $forma_pago, $fp_detalle, $data['costo'], $hoy, $tasa, $referencia, $data['saldo'], $p_pago, $nota);
+            if ($datap) {
+              $estatus = 3;
+              
+              $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$saldo);
+              $cobro = $pago->actualizarCobranza($id, $estatus, $data['saldo']);
+              $saldo = 0;
+              $contra = $pago->actualizarContrato($contrato, $saldo);
+            }
+          }
           if ($regcobranza) {
             $contador++;
             $dato['status']  = true;
@@ -96,7 +111,11 @@ switch ($_GET["op"]) {
 
   case 'cobranzaData':
     $dato = array();
-    if ($cobro_tipo==2) {
+    $id = uniqid();
+
+    $saldo = $cobranza->cargarDatosContrato($id_contrato);
+
+    if ($cobro_tipo == 2) {
       $plan = 5;
     } else {
       $dataplan = $cobranza->buscarPlanOrden($id_contrato);
@@ -104,7 +123,32 @@ switch ($_GET["op"]) {
     }
     $estatus = 1;
     $nuevo = $cobranza->cargarSiguienteOrden();
-    $data = $cobranza->guardarDatosCobranza($fecha, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus);
+
+    $data = $cobranza->guardarDatosCobranza($fecha, $nuevo, $id_contrato, $id_cliente, $nodo, $plan, $monto, $concepto, $estatus, $id);
+    if ($saldo > 0) {
+      $nota_id = uniqid();
+      $nota = $pago->cargarSiguienteNota();
+      $forma_pago = 2;
+      $fp_detalle = 4;
+      $p_pago = 0.00;
+      $tasa = 0.00;
+      $referencia = 'Capital a Favor Abono';
+
+      $datap = $pago->guardarDatosPago($nota_id, $hoy, $id_contrato, $id_cliente, $forma_pago, $fp_detalle, $saldo, $hoy, $tasa, $referencia, $saldo, $p_pago, $nota);
+      if ($datap) {
+        $estatus = 3;
+        $cob_pag = $pago->guardarDatosCobroPago($id, $nota_id,$saldo);
+        $cobro = $pago->actualizarCobranza($id, $estatus, $saldo);
+        $saldo = 0;
+        $contra = $pago->actualizarContrato($id_contrato, $saldo);
+      }
+    } 
+
+
+
+
+    
+    
     if ($data) {
       $dato['status']  = true;
       $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';

@@ -167,6 +167,8 @@ $(document).ready(function () {
     if (detalle_cxc == "general") {
       $("#box_cliente").hide();
       $("#box_nodo").hide();
+      $("#id_cliente").val('');
+      $("#nodo_cxc").val('');
     }
   });
   //*********************************************/
@@ -426,8 +428,10 @@ function cargarCliente(id) {
     dataType: "json",
     data: { id: id },
     success: function (data) {
+      console.log(data);
+      
       $.each(data, function (idx, opt) {
-        $("#id_cliente").val(cliente);
+        $("#id_cliente").val(opt.id);
         $("#cxc_cliente_nom").val(opt.nombre_apel);
         $("#cxc_cliente_id").val(opt.documento);
       });

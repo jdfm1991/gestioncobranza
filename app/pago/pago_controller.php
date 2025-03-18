@@ -8,7 +8,7 @@ require_once("pago_model.php");
 $pago = new Pago();
 
 $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-$contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '66fb165dd504e';
+$contrato = (isset($_POST['contrato'])) ? $_POST['contrato'] : '';
 $cliente = (isset($_POST['cliente'])) ? $_POST['cliente'] : '';
 $forma_pago = (isset($_POST['forma_pago'])) ? $_POST['forma_pago'] : '';
 $fp_detalle = (isset($_POST['fp_detalle'])) ? $_POST['fp_detalle'] : '';
@@ -21,6 +21,7 @@ $p_pago = (isset($_POST['p_pago'])) ? $_POST['p_pago'] : '';
 $abono = (isset($_POST['abono'])) ? $_POST['abono'] : '';
 $plan = (isset($_POST['plan'])) ? $_POST['plan'] : '';
 $hoy = date('Y-m-d H:m:s');
+$saldo = 0;
 
 
 switch ($_GET["op"]) {
@@ -43,21 +44,36 @@ switch ($_GET["op"]) {
     $dato = array();
     $id = uniqid();
     $nota = $pago->cargarSiguienteNota();
+
+    $bono = $p_pago / $tasa;
+
     if ($forma_pago==2 && $fp_detalle==4) {
       $bono = $p_pago;
       $p_pago = 0;
-    } else {
-      $bono = $p_pago/$tasa;
-    }
+    } 
     
     $data = $pago->guardarDatosPago($id, $hoy, $contrato, $cliente, $forma_pago, $fp_detalle, $p_cobro, $fecha_pago, $tasa, $referencia, $bono, $p_pago, $nota);
     if ($data) {
+      $saldo = $bono;
       foreach ($plan as $cobranza) {
-        $estatus = ($abono == 'false') ? 2 : 3;
         $cobranza;
-        $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id);       
-        $cobro = $pago->actualizarCobranza($cobranza, $estatus, $bono);
+        $monto = $pago->cargarMontoOrden($cobranza);
+        $estatus = ($abono == 'false') ? 2 : 3;
+        if ($saldo > $monto) {
+          $saldo = $saldo - $monto;
+          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id, $monto);       
+          $cobro = $pago->actualizarCobranza($cobranza, $estatus, $monto);
+          $contra = $pago->actualizarContrato($contrato, $saldo);
+        }else {
+          $estatus = 3;
+          $cob_pag = $pago->guardarDatosCobroPago($cobranza, $id,$saldo);       
+          $cobro = $pago->actualizarCobranza($cobranza, $estatus, $saldo);
+          $saldo = 0;
+          $contra = $pago->actualizarContrato($contrato, $saldo);
+        } 
       }
+
+      
       $dato['status']  = true;
       $dato['message'] = 'Se Guardo La Infomacion de Manera Satisfactoria';
     } else {

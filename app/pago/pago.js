@@ -341,7 +341,7 @@ function dataContratoCarga() {
 //************************************************/
 //********Opcion para cargar informacion**********/
 //**********de un contrato selecionado************/
-function buscarContrato(id) {
+function buscarContrato(id) { 
   $("#modalcontrato").modal("hide");
   $("#modalcliente").modal("hide");
   $.ajax({

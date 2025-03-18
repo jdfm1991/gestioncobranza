@@ -1,7 +1,4 @@
 <?php
-
-use Mpdf\Tag\P;
-
 date_default_timezone_set('America/Caracas');
 require_once("../../config/const.php");
 require_once("../../assets/pdf/autoload.php");
@@ -14,7 +11,7 @@ $id = (isset($_GET['id'])) ? $_GET['id'] : '';
 $pago = new Pago();
 
 $data = $pago->cargarDatosPago($id);
-$item = $pago->cargarDatosPagoDetalle($id);
+$item = $pago->cargarDatosPagoDetalle2($id);
 
 foreach ($data as $data) {
   $id = $data['id'];
