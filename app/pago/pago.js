@@ -191,10 +191,10 @@ $(document).ready(function () {
     tasa = parseFloat($("#tasa_pago").val());
     if (isNaN(tasa)) {
       tasa = 0;
-      monto = parseFloat(cobro * tasa);
+      monto = parseFloat(cobro * tasa).toFixed(2);
       $("#pago_cobro_cambio").val(monto);
     } else {
-      monto = parseFloat(cobro * tasa);
+      monto = parseFloat(cobro * tasa).toFixed(2);
       $("#pago_cobro_cambio").val(monto);
     }
   });

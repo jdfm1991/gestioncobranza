@@ -60,17 +60,16 @@ if (!$id) {
                       <th width="15%">Referencia</th>
                       <th width="15%">Monto $ </th>
                       <th width="15%">Tasa</th>
-                      <th width="15%">Monto Pago </th>
+                      <th width="15%">Saldo </th>
                     </tr>
                 </thead>
                 <tbody>';
   $infopago = $pago->cargarDatosPago($id);
   foreach ($infopago as $infopago) {
     $pagocambio = 0;
-    
+
     if ($infopago['forma_pago'] == 2 && $infopago['detalle_pago'] == 4) {
       $pagocambio = $infopago['monto_pago'];
-      
     } else {
       $pagocambio = $infopago['monto_pago'] / $infopago['tasa'];
     }
@@ -84,12 +83,24 @@ if (!$id) {
                 <td>' . $infopago['referencia'] . '</td>
                 <td>' . number_format($infopago['monto_dolar'], 2)  . ' $</td>
                 <td>' . number_format($infopago['tasa'], 4) . ' Bs</td>
-                <td>' . number_format($pagocambio, 2) . ' $</td>
+                <td>' . number_format($infopago['monto_dolar'], 2) . ' $</td>
               </tr>';
-
     $contador1++;
     $total = $total + $pagocambio;
   }
+  if ($infopago['saldo']>0) {
+      $body .= '   
+             <tr>
+                <td>' . $infopago['fecha_registro'] . '</td>
+                <td> Saldo A Favor </td>
+                <td> N/A </td>
+                <td>' . $infopago['contrato'] . '</td>
+                <td> N/A </td>
+                <td>' . number_format($infopago['saldo'], 2)  . ' $</td>
+                <td>' . number_format($infopago['tasa'], 4) . ' Bs</td>
+                <td>' . number_format($infopago['saldo'], 2) . ' $</td>
+              </tr>';
+    }
   $body .= '
             </tbody>
         </table><br>';
